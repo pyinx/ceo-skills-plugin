@@ -237,6 +237,13 @@ Replace: "## 当前阶段\n初始化"
 With: "## 当前阶段\n阶段0: 需求探索（完成）→ 阶段1: 需求澄清"
 ```
 
+### Update task plan current phase
+Use Edit tool to update task_plan.md:
+```
+Replace: "## 当前阶段\n初始化"
+With: "## 当前阶段\n阶段1: 需求澄清"
+```
+
 ### Call Product Manager agent
 Use the Task tool to call the ceo-product-manager agent:
 ```
@@ -281,24 +288,9 @@ Agent: ceo-skills:ceo-product-manager
 ```
 
 ### Wait for agent completion
-After ceo-product-manager agent completes, proceed to next steps.
+After ceo-product-manager agent completes, proceed to confirmation checkpoint.
 
-### Step 4.1: Display PRD Results
-
-Show formatted preview to user:
-```
-═════════════════════════════════════════════════════════════
-🎯 阶段1完成 - 需求澄清
-═════════════════════════════════════════════════════════════
-
-📋 产品经理: 产品经理
-📄 产物: .claudedocs/ceo-product-manager_result.md
-📄 阶段0设计: .claudedocs/phase0-design.md
-
-[使用Read工具读取前50行显示预览]
-```
-
-### Step 4.2: MANDATORY - User Confirmation Checkpoint
+### Step 4.1: MANDATORY - User Confirmation Checkpoint
 
 ⚠️ **CRITICAL**: You MUST pause here and wait for user confirmation before proceeding.
 
@@ -306,7 +298,7 @@ First, use Read tool to display PRD preview:
 ```
 Read file: .claudedocs/ceo-product-manager_result.md
 Limit: 50 lines
-Display to user with formatted header
+Display to user with formatted header: "📋 产品需求文档预览"
 ```
 
 Then, use AskUserQuestion tool to get user confirmation:
@@ -592,7 +584,15 @@ Before starting development, create isolated Git worktree to avoid branch switch
 4. Run project setup (npm install, cargo build, etc.)
 5. Verify clean baseline by running tests
 
-After worktree is ready, update task_plan.md:
+After worktree is ready:
+
+1. Update task_plan.md current phase:
+   ```
+   Replace: "## 当前阶段\n阶段3: 架构设计"
+   With: "## 当前阶段\n阶段3.5: 工作区准备"
+   ```
+
+2. Update task_plan.md progress:
 ```
 Edit: Replace "- [ ] 阶段3.5: 工作区准备（git-worktrees）"
 With:  "- [x] 阶段3.5: 工作区准备（git-worktrees）"
@@ -629,16 +629,22 @@ This ensures you have complete context from all previous phases.
 
 ### Execution Steps
 
-**Step 8.1: Change to worktree directory**
+**Step 8.1: Update task plan current phase**
+```
+Replace: "## 当前阶段\n阶段3.5: 工作区准备"
+With: "## 当前阶段\n阶段4: 开发实现"
+```
+
+**Step 8.2: Change to worktree directory**
 ```bash
 cd {WORKTREE_PATH}
 ```
 
-**Step 8.2: Extract development tasks from architecture**
+**Step 8.3: Extract development tasks from architecture**
 
 Read the architecture document and identify all development tasks. Group them into 2-5 minute subtasks.
 
-**Step 8.3: Invoke subagent-driven-development skill**
+**Step 8.4: Invoke subagent-driven-development skill**
 
 Use the Task tool to break down development into subtasks and execute with two-stage review:
 
@@ -661,7 +667,7 @@ Follow the skill exactly to:
 - GREEN: Write minimal code to pass
 - REFACTOR: Clean up
 
-**Step 8.4: Update task plan**
+**Step 8.5: Update task plan progress**
 ```
 Edit: Replace "- [ ] 阶段4: 开发实现（全栈开发-子任务驱动）"
 With:  "- [x] 阶段4: 开发实现（全栈开发-子任务驱动）"
@@ -697,7 +703,13 @@ This ensures you have complete context from architecture and development.
 
 ### Execution Steps
 
-**Step 9.1: Call Test Engineer agent**
+**Step 9.1: Update task plan current phase**
+```
+Replace: "## 当前阶段\n阶段4: 开发实现"
+With: "## 当前阶段\n阶段5: 测试验证"
+```
+
+**Step 9.2: Call Test Engineer agent**
 
 Use Task tool to generate comprehensive tests:
 ```
@@ -714,7 +726,7 @@ Agent: ceo-skills:ceo-test-engineer
 - 包含：测试结果、覆盖率、发现的缺陷
 ```
 
-**Step 9.2: Check test results**
+**Step 9.3: Check test results**
 
 ```
 Read file: .claudedocs/ceo-test-engineer_result.md
@@ -722,9 +734,9 @@ Read file: .claudedocs/ceo-test-engineer_result.md
 
 **If all tests pass** → Proceed to Step 10 (Phase 6)
 
-**If there are test failures** → Proceed to Step 9.3
+**If there are test failures** → Proceed to Step 9.4
 
-**Step 9.3: Invoke parallel-dispatch skill**
+**Step 9.4: Invoke parallel-dispatch skill**
 
 Use the Task tool to fix failures in parallel:
 ```
@@ -738,7 +750,7 @@ Follow the skill exactly to:
 5. Re-test until all pass
 ```
 
-**Step 9.4: Update task plan**
+**Step 9.5: Update task plan progress**
 After all tests pass:
 ```
 Edit: Replace "- [ ] 阶段5: 测试验证（测试工程师-并行修复）"
