@@ -106,7 +106,7 @@ digraph phase0_brainstorming {
     approaches [label="提出2-3种方案\n（含权衡分析）", shape=box];
     design [label="分段展示设计\n（200-300词/段）", shape=box];
     validate [label="每段后验证\n'这看起来对吗？'", shape=diamond];
-    doc [label="保存设计文档\ndocs/plans/YYYY-MM-DD-<topic>-design.md", shape=box];
+    doc [label="保存设计文档\n.claudedocs/phase0-design.md", shape=box];
 
     start → context;
     context → questions;
@@ -131,7 +131,7 @@ digraph phase0_brainstorming {
 - **灵活调整**：如有不清楚，返回澄清
 
 **产出物**:
-- **设计文档**：docs/plans/YYYY-MM-DD-<topic>-design.md
+- **设计文档**：`.claudedocs/phase0-design.md`
 - **包含内容**：架构、组件、数据流、错误处理、测试策略
 
 ### Execution
@@ -140,7 +140,7 @@ digraph phase0_brainstorming {
 
 After exploration complete, save design document to:
 ```
-docs/plans/YYYY-MM-DD-<topic>-design.md
+.claudedocs/phase0-design.md
 ```
 
 Proceed to Phase 1.
@@ -167,7 +167,7 @@ Agent: ceo-skills:ceo-product-manager
 {USER_INPUT}
 
 ### 阶段0输出（NEW - 设计文档）
-[使用Read工具读取 docs/plans/YYYY-MM-DD-<topic>-design.md 内容]
+[使用Read工具读取 .claudedocs/phase0-design.md 内容]
 
 ### 你的任务
 1. 基于阶段0设计文档生成产品需求文档（PRD）
@@ -212,7 +212,7 @@ Show formatted preview to user:
 
 📋 产品经理: 产品经理
 📄 产物: .claudedocs/ceo-product-manager_result.md
-📄 阶段0设计: docs/plans/YYYY-MM-DD-<topic>-design.md
+📄 阶段0设计: .claudedocs/phase0-design.md
 
 [使用Read工具读取前50行显示预览]
 ```
@@ -1263,7 +1263,7 @@ Create `.claudedocs/deliverable.md` with the following content:
 # 交付物索引
 
 ## 文档
-1. [阶段0设计文档](docs/plans/YYYY-MM-DD-<topic>-design.md)
+1. [阶段0设计文档](.claudedocs/phase0-design.md)
 2. [产品需求文档](.claudedocs/ceo-product-manager_result.md)
 3. [设计文档](.claudedocs/ceo-ui-ux-designer_result.md)
 4. [架构文档](.claudedocs/ceo-system-architect_result.md)
