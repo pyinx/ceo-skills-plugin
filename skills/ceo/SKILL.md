@@ -85,6 +85,61 @@ Create `.claudedocs/notes.md` with the following content:
 
 ---
 
+## Step 2: Detect Current Phase and Resume
+
+⚠️ **CRITICAL**: Before starting any phase, check if there's an existing workflow to resume.
+
+### Check for existing task plan
+
+Use Read tool to check if task plan exists:
+```
+Read file: .claudedocs/task_plan.md
+```
+
+### If task_plan.md exists (Resume Mode)
+
+1. **Parse current phase**: Read "## 当前阶段" section
+2. **Check progress**: Read "## 阶段进度" to see completed phases
+3. **Jump to next phase**: Use the mapping below
+
+**Phase mapping**:
+```
+"初始化" OR "阶段0: 需求探索" → Go to Step 3 (Phase 0)
+"阶段1: 需求澄清" → Go to Step 4 (Phase 1)
+"阶段2: 产品设计" → Go to Step 5 (Phase 2)
+"阶段3: 架构设计" → Go to Step 6 (Phase 3)
+"阶段3.5: 工作区准备" → Go to Step 7 (Phase 3.5)
+"阶段4: 开发实现" → Go to Step 8 (Phase 4)
+"阶段5: 测试验证" → Go to Step 9 (Phase 5)
+"阶段6: 交付部署" → Go to Step 10 (Phase 6)
+```
+
+Display resume message:
+```
+═════════════════════════════════════════════════════════════
+🔄 恢复工作流
+═════════════════════════════════════════════════════════════
+
+检测到现有任务计划，将从 {CURRENT_PHASE} 继续执行。
+```
+
+Then jump to the appropriate step above.
+
+### If task_plan.md doesn't exist (Fresh Start)
+
+Display initialization message:
+```
+═════════════════════════════════════════════════════════════
+🚀 启动新的 CEO 工作流
+═════════════════════════════════════════════════════════════
+
+将创建新的任务计划并执行完整 6 阶段开发流程。
+```
+
+Proceed to Step 3 (Phase 0).
+
+---
+
 ## Step 3: Execute Phase 0 - 需求探索（Brainstorming）
 
 🆕 **NEW in v6.0**: Integrate Superpowers brainstorming for requirement exploration.
@@ -138,9 +193,17 @@ digraph phase0_brainstorming {
 
 ⚠️ **DO NOT use AskUserQuestion tool** - brainstorming is a natural conversational process.
 
-After exploration complete, save design document to:
+**Invoke the brainstorming skill** (from superpowers) and follow it exactly as presented to explore user requirements through Socratic dialogue.
+
+After brainstorming completes, save design document to:
 ```
 .claudedocs/phase0-design.md
+```
+
+Then update task_plan.md to mark Phase 0 as completed:
+```
+Edit: Replace "- [ ] 阶段0: 需求探索（brainstorming）"
+With:  "- [x] 阶段0: 需求探索（brainstorming）"
 ```
 
 Proceed to Phase 1.
@@ -148,6 +211,15 @@ Proceed to Phase 1.
 ---
 
 ## Step 4: Execute Phase 1 - 需求澄清（产品经理）
+
+### ⚠️ MANDATORY: Read Previous Phase Output
+
+Before executing this phase, you MUST read all previous outputs:
+```
+Read file: .claudedocs/phase0-design.md
+```
+
+This ensures you have complete context from Phase 0.
 
 ### Update task plan current phase
 Use Edit tool to update task_plan.md:
@@ -272,6 +344,16 @@ Options:
 
 ## Step 5: Execute Phase 2 - 产品设计
 
+### ⚠️ MANDATORY: Read Previous Phase Outputs
+
+Before executing this phase, you MUST read all previous outputs:
+```
+Read file: .claudedocs/phase0-design.md
+Read file: .claudedocs/ceo-product-manager_result.md
+```
+
+This ensures you have complete context from Phase 0 and Phase 1.
+
 ### Update task plan current phase
 Use Edit tool to update task_plan.md:
 ```
@@ -337,6 +419,17 @@ After ceo-ui-ux-designer agent completes:
 ---
 
 ## Step 6: Execute Phase 3 - 架构设计
+
+### ⚠️ MANDATORY: Read Previous Phase Outputs
+
+Before executing this phase, you MUST read all previous outputs:
+```
+Read file: .claudedocs/phase0-design.md
+Read file: .claudedocs/ceo-product-manager_result.md
+Read file: .claudedocs/ceo-ui-ux-designer_result.md
+```
+
+This ensures you have complete context from Phase 0, 1, and 2.
 
 ### Update task plan current phase
 Use Edit tool to update task_plan.md to "阶段3: 架构设计"
@@ -454,163 +547,22 @@ Options:
 
 Before starting development, create isolated Git worktree to avoid branch switching pollution.
 
-### Process
+### Execution
 
-```dot
-digraph phase3_5_git_worktrees {
-    rankdir=TB;
-    start [label="架构设计完成", shape=ellipse];
-    detect [label="检测项目目录", shape=box];
-    check_existing [label="检查现有目录\n.worktrees/ 或 worktrees/", shape=diamond];
-    check_gitignore [label="验证.gitignore\n（仅项目本地目录）", shape=diamond, style=filled, fillcolor="#ffeb99"];
-    fix_gitignore [label="修复.gitignore\n并提交", shape=box, style=filled, fillcolor="#ffcccc"];
-    create_worktree [label="创建工作树\ngit worktree add", shape=box];
-    run_setup [label="运行项目设置\nnpm install / cargo build", shape=box];
-    verify_baseline [label="验证干净基线\n运行测试", shape=diamond];
-    report [label="报告位置\n准备开发", shape=box];
+**Invoke the using-git-worktrees skill** (from superpowers) and follow it exactly as presented to:
+1. Detect project directory structure
+2. Verify .gitignore settings
+3. Create isolated worktree at `.worktrees/` or `worktrees/`
+4. Run project setup (npm install, cargo build, etc.)
+5. Verify clean baseline by running tests
 
-    start → detect;
-    detect → check_existing;
-    check_existing → check_gitignore [label="找到目录"];
-    check_existing → create_worktree [label="无目录\n询问用户"];
-    check_gitignore → fix_gitignore [label="未忽略"];
-    check_gitignore → create_worktree [label="已忽略"];
-    fix_gitignore → create_worktree;
-    create_worktree → run_setup;
-    run_setup → verify_baseline;
-    verify_baseline → report [label="测试通过"];
-    verify_baseline → start [label="测试失败\n询问是否继续"];
-}
+After worktree is ready, update task_plan.md:
+```
+Edit: Replace "- [ ] 阶段3.5: 工作区准备（git-worktrees）"
+With:  "- [x] 阶段3.5: 工作区准备（git-worktrees）"
 ```
 
-### Directory Selection Logic
-
-**Priority order**:
-1. Check `.worktrees/` (hidden directory, preferred)
-2. Check `worktrees/` (alternative directory)
-3. Check CLAUDE.md configuration
-4. Ask user to choose
-
-### Safety Verification
-
-For project-local directories, **MUST verify .gitignore**:
-
-```bash
-# Check if directory is ignored
-git check-ignore -q .worktrees 2>/dev/null || git check-ignore -q worktrees 2>/dev/null
-```
-
-**If NOT ignored**:
-1. Add appropriate line to .gitignore
-2. Commit the change
-3. Proceed with worktree creation
-
-**Why critical**: Prevents accidentally committing worktree contents to repository.
-
-### Execution Steps
-
-#### Step 7.1: Detect Project Name and Directory
-
-```bash
-# Detect project name
-project=$(basename "$(git rev-parse --show-toplevel)")
-
-# Check existing directories
-if [ -d ".worktrees" ]; then
-    LOCATION=".worktrees"
-elif [ -d "worktrees" ]; then
-    LOCATION="worktrees"
-else
-    # Ask user to choose
-fi
-```
-
-#### Step 7.2: Verify .gitignore (for project-local directories)
-
-⚠️ **MANDATORY for .worktrees or worktrees**
-
-```bash
-# Verify .gitignore
-git check-ignore -q .worktrees 2>/dev/null
-
-# If returns non-zero (not ignored), fix it:
-echo ".worktrees/" >> .gitignore
-git add .gitignore
-git commit -m "Add .worktrees/ to gitignore"
-```
-
-#### Step 7.3: Create Worktree
-
-```bash
-# Determine branch name
-BRANCH_NAME="feature-$(date +%Y%m%d-%H%M%S)"
-
-# Create worktree with new branch
-git worktree add $LOCATION/$BRANCH_NAME -b $BRANCH_NAME
-
-# Report location
-WORKTREE_PATH="$LOCATION/$BRANCH_NAME"
-echo "✅ Worktree created at: $WORKTREE_PATH"
-```
-
-#### Step 7.4: Run Project Setup
-
-Auto-detect and run appropriate setup:
-
-```bash
-# Change to worktree directory
-cd $WORKTREE_PATH
-
-# Detect and run setup
-if [ -f "package.json" ]; then
-    npm install
-elif [ -f "Cargo.toml" ]; then
-    cargo build
-elif [ -f "requirements.txt" ]; then
-    pip install -r requirements.txt
-elif [ -f "pyproject.toml" ]; then
-    poetry install
-elif [ -f "go.mod" ]; then
-    go mod download
-fi
-```
-
-#### Step 7.5: Verify Clean Baseline
-
-Run tests to ensure worktree starts clean:
-
-```bash
-# Run appropriate test command
-if [ -f "package.json" ]; then
-    npm test
-elif [ -f "Cargo.toml" ]; then
-    cargo test
-elif [ -f "requirements.txt" ] || [ -f "pyproject.toml" ]; then
-    pytest
-elif [ -f "go.mod" ]; then
-    go test ./...
-fi
-```
-
-**If tests fail**: Report failures, ask whether to proceed or investigate.
-
-**If tests pass**: Report ready.
-
-#### Step 7.6: Report and Update State
-
-```
-═════════════════════════════════════════════════════════════
-🌳 阶段3.5完成 - 工作区准备
-═════════════════════════════════════════════════════════════
-
-📍 工作树位置: {WORKTREE_PATH}
-✅ 基线测试: 通过 ({N} tests, 0 failures)
-🚀 准备开发: 阶段4将在工作树中执行
-```
-
-Update task_plan.md:
-- Mark Phase 3.5 as completed
-- Store WORKTREE_PATH for Phase 4
+Store the WORKTREE_PATH in task_plan.md for Phase 4 use.
 
 Proceed to Step 8 (Phase 4).
 
@@ -619,6 +571,18 @@ Proceed to Step 8 (Phase 4).
 ## Step 8: Execute Phase 4 - 开发实现（子任务驱动）
 
 🆕 **ENHANCED in v6.0**: Integrate Superpowers subagent-driven-development with two-stage code review.
+
+### ⚠️ MANDATORY: Read Previous Phase Outputs
+
+Before executing this phase, you MUST read all previous outputs:
+```
+Read file: .claudedocs/phase0-design.md
+Read file: .claudedocs/ceo-product-manager_result.md
+Read file: .claudedocs/ceo-ui-ux-designer_result.md
+Read file: .claudedocs/ceo-system-architect_result.md
+```
+
+This ensures you have complete context from all previous phases.
 
 ### Purpose
 
@@ -987,6 +951,16 @@ Proceed to Step 9 (Phase 5).
 
 🆕 **ENHANCED in v6.0**: Integrate Superpowers dispatching-parallel-agents for independent test failures.
 
+### ⚠️ MANDATORY: Read Previous Phase Outputs
+
+Before executing this phase, you MUST read all previous outputs:
+```
+Read file: .claudedocs/ceo-system-architect_result.md
+Read file: .claudedocs/ceo-fullstack-developer_result.md (if exists)
+```
+
+This ensures you have complete context from architecture and development.
+
 ### Purpose
 
 Use parallel agents to fix independent test failures, improving efficiency.
@@ -1217,6 +1191,15 @@ Proceed to Step 10 (Phase 6).
 ---
 
 ## Step 10: Execute Phase 6 - 交付部署
+
+### ⚠️ MANDATORY: Read Previous Phase Outputs
+
+Before executing this phase, you MUST read all previous outputs:
+```
+Read file: .claudedocs/ceo-test-engineer_result.md
+```
+
+This ensures you have complete context from testing phase.
 
 ### Update task plan current phase
 Use Edit tool to update task_plan.md to "阶段6: 交付部署"
