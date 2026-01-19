@@ -566,8 +566,6 @@ Store the WORKTREE_PATH in task_plan.md for Phase 4 use.
 
 Proceed to Step 8 (Phase 4).
 
----
-
 ## Step 8: Execute Phase 4 - 开发实现（子任务驱动）
 
 🆕 **ENHANCED in v6.0**: Integrate Superpowers subagent-driven-development with two-stage code review.
@@ -584,367 +582,48 @@ Read file: .claudedocs/ceo-system-architect_result.md
 
 This ensures you have complete context from all previous phases.
 
-### Purpose
-
-Break development into 2-5 minute subtasks, each with independent implementer + two-stage review (spec compliance → code quality).
-
-### Process Overview
-
-```dot
-digraph phase4_subagent_driven {
-    rankdir=TB;
-    start [label="进入工作树", shape=ellipse];
-    read_plan [label="读取架构设计\n提取所有开发任务", shape=box];
-    create_todos [label="创建TodoWrite\n（所有任务）", shape=box];
-
-    subgraph cluster_task {
-        label="每个子任务";
-        dispatch_impl [label="派发实施子代理\n（零上下文）", shape=box, style=filled, fillcolor="#e1f5ff"];
-        impl_questions [label="子代理提问？", shape=diamond];
-        answer_questions [label="回答问题\n提供上下文", shape=box];
-        impl_complete [label="子代理完成\n代码+测试+自审", shape=box];
-        dispatch_spec [label="派发规格审查子代理\n（怀疑论者）", shape=box, style=filled, fillcolor="#fff4e1"];
-        spec_pass [label="规格合规？", shape=diamond];
-        fix_spec [label="修复规格问题", shape=box, style=filled, fillcolor="#ffcccc"];
-        dispatch_quality [label="派发质量审查子代理\n（代码清晰度）", shape=box, style=filled, fillcolor="#f0e1ff"];
-        quality_pass [label="质量合格？", shape=diamond];
-        fix_quality [label="修复质量问题", shape=box, style=filled, fillcolor="#ffcccc"];
-        mark_complete [label="标记任务完成\n更新TodoWrite", shape=box];
-
-        impl_questions → answer_questions [label="是"];
-        impl_questions → impl_complete [label="否"];
-        answer_questions → impl_complete;
-        impl_complete → dispatch_spec;
-        spec_pass → fix_spec [label="否"];
-        spec_pass → dispatch_quality [label="是"];
-        fix_spec → dispatch_spec;
-        dispatch_quality → quality_pass;
-        quality_pass → fix_quality [label="否"];
-        quality_pass → mark_complete [label="是"];
-        fix_quality → dispatch_quality;
-    }
-
-    more_tasks [label="还有任务？", shape=diamond];
-    final_review [label="最终代码审查\n（整体审查）", shape=box, style=filled, fillcolor="#ffe1f0"];
-    complete [label="阶段4完成\n准备测试", shape=ellipse];
-
-    start → read_plan;
-    read_plan → create_todos;
-    create_todos → dispatch_impl;
-    dispatch_impl → impl_questions;
-    mark_complete → more_tasks;
-    more_tasks → dispatch_impl [label="是"];
-    more_tasks → final_review [label="否"];
-    final_review → complete;
-}
-```
-
 ### Execution Steps
 
-#### Step 8.1: Update task plan and read architecture
-
+**Step 8.1: Change to worktree directory**
 ```bash
-# Change to worktree directory (from Phase 3.5)
 cd {WORKTREE_PATH}
-
-# Update task_plan.md current phase to "阶段4: 开发实现"
 ```
 
-Use Read tool to read architecture document:
-```
-Read file: .claudedocs/ceo-system-architect_result.md
-```
+**Step 8.2: Extract development tasks from architecture**
 
-#### Step 8.2: Extract development tasks and create TodoWrite
+Read the architecture document and identify all development tasks. Group them into 2-5 minute subtasks.
 
-From the architecture document, extract all development tasks and group them into 2-5 minute subtasks.
+**Step 8.3: Invoke subagent-driven-development skill**
 
-**Subtask breakdown principles**:
-- **Time**: Each subtask 2-5 minutes
-- **Function**: Each subtask corresponds to one independent feature
-- **Priority**: Core features → Data flow → UI → Helpers
-
-Create TodoWrite with all subtasks:
-```
-TodoWrite: [
-  { content: "子任务4.1: 实现用户认证API", status: "pending" },
-  { content: "子任务4.2: 实现数据存储", status: "pending" },
-  { content: "子任务4.3: 实现前端界面", status: "pending" },
-  ...
-]
-```
-
-#### Step 8.3: Execute each subtask with two-stage review
-
-For each subtask:
-
-**A. Dispatch implementer subagent**
+Use the Task tool to break down development into subtasks and execute with two-stage review:
 
 ```
-Task tool:
-Agent: ceo-skills:ceo-fullstack-developer
+Task tool: Invoke the subagent-driven-development skill (from superpowers)
 
-## 子任务上下文
-
-### 子任务
-{SUBTASK_TEXT}
-
-### 架构设计
-[Read tool: .claudedocs/ceo-system-architect_result.md]
-
-### 前期阶段输出
-[Read tool: 所有前期输出]
-
-### ⚠️ TDD铁律（MANDATORY）
-```
-NO PRODUCTION CODE WITHOUT A FAILING TEST FIRST
+Follow the skill exactly to:
+1. Break architecture into 2-5 minute subtasks
+2. For each subtask:
+   - Dispatch implementer (ceo-skills:ceo-fullstack-developer)
+   - Review for spec compliance
+   - Review for code quality
+   - Fix issues until approved
+3. Final code review
+4. Commit changes
 ```
 
-**RED-GREEN-REFACTOR循环**:
-1. RED: 写失败测试
-2. 验证失败（MANDATORY）
-3. GREEN: 写最小代码
-4. 验证通过
-5. REFACTOR: 清理
+⚠️ **TDD Enforcement**: All development MUST follow TDD:
+- RED: Write failing test first
+- GREEN: Write minimal code to pass
+- REFACTOR: Clean up
 
-### 🚨 约束
-- 使用Write工具创建文件（自动创建目录）
-- 遵循TDD铁律
-- 代码符合架构设计
-- 完成后自我审查
-
-### 输出
-- 实现的代码
-- 测试代码
-- 自我审查结果
+**Step 8.4: Update task plan**
 ```
-
-**B. Handle implementer questions**
-
-If implementer subagent asks questions:
-- Use natural conversation (NOT AskUserQuestion)
-- Provide clear, complete answers
-- Provide additional context if needed
-- Let implementer proceed after clarification
-
-**C. After implementer completes, dispatch spec compliance reviewer**
-
+Edit: Replace "- [ ] 阶段4: 开发实现（全栈开发-子任务驱动）"
+With:  "- [x] 阶段4: 开发实现（全栈开发-子任务驱动）"
+Edit: Update "## 当前阶段" to "阶段5: 测试验证"
 ```
-Task tool:
-Agent: ceo-skills:ceo-fullstack-developer (as reviewer)
-
-## 规格合规性审查
-
-### 子任务
-{SUBTASK_TEXT}
-
-### 架构设计（规格）
-[Read tool: .claudedocs/ceo-system-architect_result.md]
-
-### 实现代码
-{IMPLEMENTATION_CODE}
-
-### PRD需求
-[Read tool: .claudedocs/ceo-product-manager_result.md]
-
-### 用户故事
-[Read tool: .claudedocs/ceo-ui-ux-designer_result.md]
-
-### 🎯 审查任务（怀疑论者角色）
-验证实现完全符合规格：
-
-✅ **必需功能**（无缺失）:
-- 所有API端点已实现
-- 所有数据模型已实现
-- 所有用户故事已满足
-
-❌ **过度构建**（无多余）:
-- 没有实现未要求的功能
-- 没有添加未要求的字段
-
-📋 **规格符合性**:
-- 符合API设计文档
-- 符合数据模型设计
-- 符合PRD需求
-- 符合用户故事
-
-### 输出格式
-```
-## 规格合规性审查结果
-
-✅ 合规 / ❌ 不合规
-
-### 缺失功能（如有）
-...
-
-### 过度构建（如有）
-...
-
-### 规格
-...
-
-### 建议
-...
-```
-```
-
-**D. Process spec review result**
-
-If spec reviewer returns ❌ 不合规:
-1. Collect issues (缺失功能 OR 过度构建 OR both)
-2. Dispatch implementer subagent to fix:
-   ```
-   Agent: ceo-skills:ceo-fullstack-developer
-
-   ## 修复规格问题
-
-   ### 规格审查发现的问题
-   {SPEC_ISSUES}
-
-   请修复这些问题并重新提交。
-   ```
-3. After fix, re-dispatch spec reviewer (go to C)
-4. Repeat until ✅ 合规
-
-If spec reviewer returns ✅ 合规:
-Proceed to quality review.
-
-**E. Dispatch code quality reviewer**
-
-```
-Task tool:
-Agent: ceo-skills:ceo-fullstack-developer (as quality reviewer)
-
-## 代码质量审查
-
-### 子任务
-{SUBTASK_TEXT}
-
-### 实现代码
-{IMPLEMENTATION_CODE}
-
-### 测试代码
-{TEST_CODE}
-
-### 🎯 审查任务
-审查代码质量（仅在规格合规后执行）：
-
-📐 **代码清晰度**:
-- 变量命名清晰
-- 函数职责单一
-- 代码易读易懂
-
-🔧 **可维护性**:
-- 避免代码重复
-- 模块化设计
-- 适当注释
-
-🧪 **测试覆盖率**:
-- 测试充分
-- 边界情况覆盖
-
-⚡ **性能考虑**:
-- 无明显性能问题
-- 适当使用缓存
-
-🛡️ **安全性**:
-- 输入验证
-- 错误处理
-
-### 输出格式
-```
-## 代码质量审查结果
-
-✅ 批准 / ❌ 需要改进
-
-### 优点
-...
-
-### 问题（按严重性）
-- **Critical**: ...
-- **Important**: ...
-- **Minor**: ...
-
-### 建议
-...
-```
-```
-
-**F. Process quality review result**
-
-If quality reviewer returns ❌ 需要改进:
-1. Collect issues
-2. Dispatch implementer subagent to fix:
-   ```
-   Agent: ceo-skills:ceo-fullstack-developer
-
-   ## 修复质量问题
-
-   ### 质量审查发现的问题
-   {QUALITY_ISSUES}
-
-   请修复这些问题并重新提交。
-   ```
-3. After fix, re-dispatch quality reviewer (go to E)
-4. Repeat until ✅ 批准
-
-If quality reviewer returns ✅ 批准:
-Mark subtask complete in TodoWrite, proceed to next subtask.
-
-#### Step 8.4: After all subtasks complete, final code review
-
-When all subtasks are complete:
-
-```
-Task tool:
-Agent: ceo-skills:ceo-fullstack-developer
-
-## 最终代码审查
-
-### 所有子任务
-{ALL_SUBTASKS}
-
-### 完整实现
-{FULL_IMPLEMENTATION}
-
-### 🎯 审查任务
-整体审查所有子任务的实现：
-
-✅ **完整性**: 所有需求已实现
-✅ **一致性**: 代码风格一致
-✅ **集成性**: 子任务间正确集成
-✅ **质量**: 整体代码质量合格
-
-### 输出格式
-```
-## 最终代码审查结果
-
-✅ 批准合并 / ❌ 需要修改
-
-### 整体评估
-...
-
-### 需要修改的问题（如有）
-...
-```
-```
-
-#### Step 8.5: Commit changes to worktree
-
-After final review approval:
-
-```bash
-# In worktree directory
-git add .
-git commit -m "Complete Phase 4: Development implementation"
-```
-
-Update task_plan.md:
-- Mark Phase 4 as completed
-- Update current phase to "阶段5: 测试验证"
 
 Proceed to Step 9 (Phase 5).
-
 ---
 
 ## Step 9: Execute Phase 5 - 测试验证（并行修复）
@@ -961,236 +640,58 @@ Read file: .claudedocs/ceo-fullstack-developer_result.md (if exists)
 
 This ensures you have complete context from architecture and development.
 
-### Purpose
-
-Use parallel agents to fix independent test failures, improving efficiency.
-
-### Process Overview
-
-```dot
-digraph phase5_parallel_dispatch {
-    rankdir=TB;
-    start [label="阶段4完成\n代码已实现", shape=ellipse];
-    write_tests [label="测试工程师编写测试\n（单元+集成+E2E）", shape=box];
-    run_tests [label="运行测试套件", shape=box];
-    check_failures [label="有失败？", shape=diamond];
-
-    group_failures [label="按独立域分组失败", shape=box];
-
-    subgraph cluster_parallel {
-        label="并行派发修复代理";
-        agent1 [label="代理1\n修复域1失败", shape=box, style=filled, fillcolor="#e1f5ff"];
-        agent2 [label="代理2\n修复域2失败", shape=box, style=filled, fillcolor="#e1f5ff"];
-        agent3 [label="代理3\n修复域3失败", shape=box, style=filled, fillcolor="#e1f5ff"];
-    }
-
-    wait_agents [label="等待所有代理完成", shape=box];
-    integrate [label="审查并集成修复", shape=box];
-    retest [label="重新运行完整测试", shape=box];
-
-    all_pass [label="所有测试通过？", shape=diamond];
-    complete [label="阶段5完成\n准备交付", shape=ellipse];
-
-    start → write_tests;
-    write_tests → run_tests;
-    run_tests → check_failures;
-    check_failures → complete [label="无失败"];
-    check_failures → group_failures [label="有失败"];
-    group_failures → agent1;
-    group_failures → agent2;
-    group_failures → agent3;
-    agent1 → wait_agents;
-    agent2 → wait_agents;
-    agent3 → wait_agents;
-    wait_agents → integrate;
-    integrate → retest;
-    retest → all_pass;
-    all_pass → group_failures [label="仍有失败"];
-    all_pass → complete [label="全部通过"];
-}
-```
-
 ### Execution Steps
 
-#### Step 9.1: Call Test Engineer agent
+**Step 9.1: Call Test Engineer agent**
 
+Use Task tool to generate comprehensive tests:
 ```
-Task tool:
 Agent: ceo-skills:ceo-test-engineer
 
-## CEO任务上下文
-
-### 用户输入
-{USER_INPUT}
-
-### 前期阶段输出
-[Read tool: 所有前期输出文件]
-
-### 用户回答
-{USER_ANSWERS}
-
-### 你的任务
+## 任务
 1. 编写单元测试（覆盖率≥80%）
 2. 编写集成测试
 3. 编写E2E测试
-4. 性能测试
-5. 运行测试套件并报告结果
-
-### 目标
-- 所有测试通过（0失败）
-- 测试覆盖率≥80%
-- 无严重缺陷
-
-### ⚠️ 提问规则（如需确认）
-- 最多提问5个问题
-- 分批提问，优先级排序
-- 格式：Q1: / A. / B. / 推荐: []
+4. 运行测试套件并报告结果
 
 ### 输出要求
 - 输出测试报告到 .claudedocs/ceo-test-engineer_result.md
 - 包含：测试结果、覆盖率、发现的缺陷
 ```
 
-#### Step 9.2: Check test results
-
-After test engineer completes:
+**Step 9.2: Check test results**
 
 ```
-Read tool: .claudedocs/ceo-test-engineer_result.md
+Read file: .claudedocs/ceo-test-engineer_result.md
 ```
 
-**If all tests pass (0 failures)**:
-Proceed directly to Step 10 (Phase 6)
+**If all tests pass** → Proceed to Step 10 (Phase 6)
 
-**If there are test failures**:
-Proceed to Step 9.3 (parallel fix)
+**If there are test failures** → Proceed to Step 9.3
 
-#### Step 9.3: Group failures by independent domains
+**Step 9.3: Invoke parallel-dispatch skill**
 
-Identify independent domains:
-
-**Independent domain characteristics**:
-- Different test files
-- Different subsystems
-- No shared state
-- Can be worked on in parallel
-
-**Example grouping**:
-
-| Test File | Failures | Domain | Independent? |
-|-----------|----------|---------|--------------|
-| auth.test.ts | 3 | Authentication logic | ✅ Yes |
-| database.test.ts | 2 | Database queries | ✅ Yes |
-| ui.test.ts | 1 | Component rendering | ✅ Yes |
-
-#### Step 9.4: Dispatch parallel fix agents
-
-For each independent domain, dispatch a fix agent:
-
+Use the Task tool to fix failures in parallel:
 ```
-# Example: Dispatch 3 agents in parallel
-Task tool:
-Agent: ceo-skills:ceo-test-engineer
+Task tool: Invoke the parallel-dispatch skill (from superpowers)
 
-## 修复认证测试失败
-
-### 失败清单
-1. "should login with valid credentials" - expects 200 OK but gets 401
-2. "should reject invalid password" - expects 401 but gets 200
-3. "should handle expired token" - expects 401 but gets 200
-
-### 问题域
-认证逻辑（token验证、密码检查）
-
-### 任务
-1. 读取 auth.test.ts 理解每个测试
-2. 识别根本原因（逻辑错误 vs 测试错误）
-3. 修复：
-   - 修复认证实现中的bug
-   - 或调整测试预期（如果测试错了）
-4. 验证：运行 auth.test.ts 确保全部通过
-
-### 约束
-- 不要修改其他文件
-- 不要修改其他测试
-- 返回：根本原因和修复摘要
-
-### 期望输出
-```markdown
-## 修复摘要
-
-### 根本原因
-JWT token验证逻辑错误：未检查token过期时间
-
-### 修复内容
-1. 在 verifyToken() 中添加过期检查
-2. 修改 tokenMiddleware() 正确处理过期token
-
-### 测试结果
-auth.test.ts: 3/3 passing
-```
+Follow the skill exactly to:
+1. Group test failures by independent domains
+2. Dispatch parallel fix agents (ceo-skills:ceo-test-engineer)
+3. Wait for all agents to complete
+4. Review and integrate fixes
+5. Re-test until all pass
 ```
 
-```
-Task tool:
-Agent: ceo-skills:ceo-test-engineer
-
-## 修复数据库测试失败
-
-[Similar structure for database failures]
-```
-
-```
-Task tool:
-Agent: ceo-skills:ceo-test-engineer
-
-## 修复UI测试失败
-
-[Similar structure for UI failures]
-```
-
-#### Step 9.5: Wait for all agents to complete
-
-Wait for all parallel agents to return their fix summaries.
-
-#### Step 9.6: Review and integrate fixes
-
-1. Read each agent's fix summary
-2. Verify fixes don't conflict
-3. Run full test suite:
-   ```bash
-   npm test  # or appropriate test command
-   ```
-
-#### Step 9.7: Re-test loop
-
-**If all tests pass**:
-Proceed to Step 10 (Phase 6)
-
-**If tests still fail**:
-- Group remaining failures by independent domains
-- Repeat Step 9.4 (dispatch parallel fix agents)
-- Repeat until all tests pass
-
-#### Step 9.8: Commit test fixes
-
+**Step 9.4: Update task plan**
 After all tests pass:
-
-```bash
-# In worktree directory
-git add .
-git commit -m "Complete Phase 5: Testing and bug fixes"
 ```
-
-Update task_plan.md:
-- Mark Phase 5 as completed
-- Update current phase to "阶段6: 交付部署"
+Edit: Replace "- [ ] 阶段5: 测试验证（测试工程师-并行修复）"
+With:  "- [x] 阶段5: 测试验证（测试工程师-并行修复）"
+Edit: Update "## 当前阶段" to "阶段6: 交付部署"
+```
 
 Proceed to Step 10 (Phase 6).
-
----
-
-## Step 10: Execute Phase 6 - 交付部署
 
 ### ⚠️ MANDATORY: Read Previous Phase Outputs
 
