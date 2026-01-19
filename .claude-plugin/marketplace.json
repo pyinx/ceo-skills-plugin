@@ -11,10 +11,8 @@
       "name": "ceo-skills",
       "description": "Full-stack development team: 6 specialized agents with Superpowers framework integration for automated workflow from requirements to deployment",
       "version": "6.0.0",
-      "source": {
-        "source": "local",
-        "path": "./"
-      },
+      "source": "./",
+      "strict": false,
       "author": {
         "name": "pyinx",
         "email": "pyinx@example.com"
