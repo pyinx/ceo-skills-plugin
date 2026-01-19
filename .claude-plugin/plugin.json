@@ -1,0 +1,22 @@
+{
+  "name": "ceo-skills",
+  "description": "Full-stack development team orchestrator: 6 specialized agents with 11 Superpowers framework skills for automated workflow from requirements to deployment",
+  "version": "6.0.0",
+  "author": {
+    "name": "pyinx",
+    "email": "pyinx@example.com"
+  },
+  "homepage": "https://github.com/pyinx/ceo-skills-plugin",
+  "repository": "https://github.com/pyinx/ceo-skills-plugin",
+  "license": "MIT",
+  "keywords": [
+    "ceo",
+    "full-stack",
+    "development-team",
+    "agents",
+    "workflow",
+    "tdd",
+    "code-review",
+    "automation"
+  ]
+}
