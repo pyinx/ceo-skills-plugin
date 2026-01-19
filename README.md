@@ -17,9 +17,9 @@
 ### 安装
 
 ```bash
-# 通过 Marketplace 安装（需要先配置 marketplace）
-/plugin marketplace add https://github.com/pyinx/ceo-skills-plugin
-/plugin install ceo-skills@pyinx
+# 通过 Marketplace 安装（推荐）
+claude plugin marketplace add https://github.com/pyinx/ceo-skills-plugin.git
+claude plugin install ceo-skills@ceo-skills-marketplace
 
 # 或手动安装
 git clone https://github.com/pyinx/ceo-skills-plugin.git ~/.claude/plugins/ceo-skills-plugin
