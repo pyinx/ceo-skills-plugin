@@ -208,15 +208,6 @@ With:  "- [x] 阶段0: 需求探索（brainstorming）"
 
 Proceed to Phase 1.
 
-```
-═════════════════════════════════════════════════════════════
-✅ Phase 0 完成 - 需求探索
-═════════════════════════════════════════════════════════════
-
-📄 设计文档: .claudedocs/phase0-design.md
-📋 下一步: Phase 1 - 需求澄清（产品经理）
-```
-
 ---
 
 ## Step 4: Execute Phase 1 - 需求澄清（产品经理）
@@ -332,16 +323,7 @@ Options:
 1. Use Edit tool to update task_plan.md:
    - Mark Phase 0 and Phase 1 as completed
    - Update current phase to "阶段2: 产品设计"
-2. Proceed to Step 5 (Phase 2).
-
-```
-═════════════════════════════════════════════════════════════
-✅ Phase 1 完成 - 需求澄清
-═════════════════════════════════════════════════════════════
-
-📄 PRD文档: .claudedocs/ceo-product-manager_result.md
-📋 下一步: Phase 2 - 产品设计（UI/UX设计师）
-```
+2. Proceed to Step 5 (Phase 2)
 
 **If user selects 📝 修改PRD**:
 1. Use AskUserQuestion to collect specific modification requests
@@ -432,16 +414,7 @@ After ceo-ui-ux-designer agent completes:
    🎨 阶段2完成 - UI/UX设计
    📄 设计文档: .claudedocs/ceo-ui-ux-designer_result.md
    ```
-3. Proceed directly to Phase 3 (no confirmation required).
-
-```
-═════════════════════════════════════════════════════════════
-✅ Phase 2 完成 - 产品设计
-═════════════════════════════════════════════════════════════
-
-📄 设计文档: .claudedocs/ceo-ui-ux-designer_result.md
-📋 下一步: Phase 3 - 架构设计（系统架构师）
-```
+3. Proceed directly to Phase 3 (no confirmation required)
 
 ---
 
@@ -547,16 +520,7 @@ Options:
 1. Use Edit tool to update task_plan.md:
    - Mark Phase 3 as completed
    - Update current phase to "阶段3.5: 工作区准备"
-2. Proceed to Step 7 (Phase 3.5).
-
-```
-═════════════════════════════════════════════════════════════
-✅ Phase 3 完成 - 架构设计
-═════════════════════════════════════════════════════════════
-
-📄 架构文档: .claudedocs/ceo-system-architect_result.md
-📋 下一步: Phase 3.5 - 工作区准备（git-worktrees）
-```
+2. Proceed to Step 7 (Phase 3.5)
 
 **If user selects 📝 修改架构**:
 1. Use AskUserQuestion to collect specific modification requests
@@ -601,15 +565,6 @@ With:  "- [x] 阶段3.5: 工作区准备（git-worktrees）"
 Store the WORKTREE_PATH in task_plan.md for Phase 4 use.
 
 Proceed to Step 8 (Phase 4).
-
-```
-═════════════════════════════════════════════════════════════
-✅ Phase 3.5 完成 - 工作区准备
-═════════════════════════════════════════════════════════════
-
-🌳 工作树路径: {WORKTREE_PATH}
-📋 下一步: Phase 4 - 开发实现（子任务驱动）
-```
 
 ## Step 8: Execute Phase 4 - 开发实现（子任务驱动）
 
@@ -669,98 +624,8 @@ Edit: Update "## 当前阶段" to "阶段5: 测试验证"
 ```
 
 Proceed to Step 9 (Phase 5).
-
-```
-═════════════════════════════════════════════════════════════
-✅ Phase 4 完成 - 开发实现
-═════════════════════════════════════════════════════════════
-
-💻 代码位置: {WORKTREE_PATH}/src/
-📄 开发文档: .claudedocs/ceo-fullstack-developer_result.md (if exists)
-📋 下一步: Phase 5 - 测试验证（测试工程师-并行修复）
-```
 ---
 
-## Step 9: Execute Phase 5 - 测试验证（并行修复）
-
-🆕 **ENHANCED in v6.0**: Integrate Superpowers dispatching-parallel-agents for independent test failures.
-
-### ⚠️ MANDATORY: Read Previous Phase Outputs
-
-Before executing this phase, you MUST read all previous outputs:
-```
-Read file: .claudedocs/ceo-system-architect_result.md
-Read file: .claudedocs/ceo-fullstack-developer_result.md (if exists)
-```
-
-This ensures you have complete context from architecture and development.
-
-### Execution Steps
-
-**Step 9.1: Call Test Engineer agent**
-
-Use Task tool to generate comprehensive tests:
-```
-Agent: ceo-skills:ceo-test-engineer
-
-## 任务
-1. 编写单元测试（覆盖率≥80%）
-2. 编写集成测试
-3. 编写E2E测试
-4. 运行测试套件并报告结果
-
-### 输出要求
-- 输出测试报告到 .claudedocs/ceo-test-engineer_result.md
-- 包含：测试结果、覆盖率、发现的缺陷
-```
-
-**Step 9.2: Check test results**
-
-```
-Read file: .claudedocs/ceo-test-engineer_result.md
-```
-
-**If all tests pass** → Proceed to Step 10 (Phase 6)
-
-**If there are test failures** → Proceed to Step 9.3
-
-**Step 9.3: Invoke parallel-dispatch skill**
-
-Use the Task tool to fix failures in parallel:
-```
-Task tool: Invoke the parallel-dispatch skill (from superpowers)
-
-Follow the skill exactly to:
-1. Group test failures by independent domains
-2. Dispatch parallel fix agents (ceo-skills:ceo-test-engineer)
-3. Wait for all agents to complete
-4. Review and integrate fixes
-5. Re-test until all pass
-```
-
-**Step 9.4: Update task plan**
-After all tests pass:
-```
-Edit: Replace "- [ ] 阶段5: 测试验证（测试工程师-并行修复）"
-With:  "- [x] 阶段5: 测试验证（测试工程师-并行修复）"
-Edit: Update "## 当前阶段" to "阶段6: 交付部署"
-```
-
-Proceed to Step 10 (Phase 6).
-
-```
-═════════════════════════════════════════════════════════════
-✅ Phase 5 完成 - 测试验证
-═════════════════════════════════════════════════════════════
-
-📊 测试报告: .claudedocs/ceo-test-engineer_result.md
-✅ 所有测试通过
-📋 下一步: Phase 6 - 交付部署（市场营销师）
-```
-
----
-
-## Step 10: Execute Phase 6 - 交付部署
 
 ### ⚠️ MANDATORY: Read Previous Phase Outputs
 
@@ -803,27 +668,6 @@ Agent: ceo-skills:ceo-marketing-specialist
 ```
 
 ### Wait for agent completion, then display results
-
-After ceo-marketing-specialist agent completes:
-
-1. Use Edit tool to update task_plan.md:
-   - Mark Phase 6 as completed
-   - Update current phase to "完成"
-2. Display completion message:
-   ```
-   📦 阶段6完成 - 交付部署
-   📄 交付文档: .claudedocs/ceo-marketing-specialist_result.md
-   ```
-3. Proceed to Step 11 (Final Summary)
-
-```
-═════════════════════════════════════════════════════════════
-✅ Phase 6 完成 - 交付部署
-═════════════════════════════════════════════════════════════
-
-📦 交付文档: .claudedocs/ceo-marketing-specialist_result.md
-📋 下一步: 生成最终交付物索引
-```
 
 ---
 
