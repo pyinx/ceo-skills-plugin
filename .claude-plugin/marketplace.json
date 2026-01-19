@@ -1,4 +1,5 @@
 {
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "ceo-skills-marketplace",
   "description": "Marketplace for CEO Skills - Full-stack development team orchestrator plugin",
   "owner": {
@@ -10,7 +11,10 @@
       "name": "ceo-skills",
       "description": "Full-stack development team: 6 specialized agents with Superpowers framework integration for automated workflow from requirements to deployment",
       "version": "6.0.0",
-      "source": "./",
+      "source": {
+        "source": "local",
+        "path": "./"
+      },
       "author": {
         "name": "pyinx",
         "email": "pyinx@example.com"
