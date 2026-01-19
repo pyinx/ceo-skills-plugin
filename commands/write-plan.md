@@ -1,35 +1,9 @@
 ---
-name: ceo:write-plan
-description: Create implementation plan from architecture design
+description: "Create implementation plan from architecture design. Use when architecture design is complete and you need to break down into implementation tasks."
 ---
 
-# /ceo:write-plan - Create Implementation Plan
+Read the architecture design document from `.claudedocs/ceo-system-architect_result.md`.
 
-## Usage
+Then update the task plan at `.claudedocs/task_plan.md` by extracting all development tasks from the architecture document and organizing them into 2-5 minute subtasks.
 
-```bash
-/ceo:write-plan
-```
-
-## What it does
-
-- Reads architecture design from `.claudedocs/ceo-system-architect_result.md`
-- Breaks down into implementation tasks
-- Organizes tasks by dependencies
-- Creates TodoWrite structure
-- Saves to `.claudedocs/task_plan.md`
-
-## Prerequisites
-
-- Must have completed Phase 3 (System Architect)
-- Architecture design document must exist
-
-## Examples
-
-```bash
-# Create plan from architecture
-/ceo:write-plan
-
-# Include task estimates
-/ceo:write-plan --estimate
-```
+Follow the ceo skill's Step 8.2 (Extract development tasks and create TodoWrite) for the exact methodology.

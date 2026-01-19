@@ -1,35 +1,12 @@
 ---
-name: ceo:execute-plan
-description: Execute existing implementation plan with subagent-driven development
+description: "Execute existing implementation plan with subagent-driven development. Use when you have a task plan from Phase 3 and want to start development."
 ---
 
-# /ceo:execute-plan - Execute Implementation Plan
+Read the current task plan from `.claudedocs/task_plan.md` to determine which phase to execute.
 
-## Usage
+Then follow the ceo skill starting from the appropriate phase:
+- If Phase 4: Follow Step 8 (Execute Phase 4 - 开发实现)
+- If Phase 5: Follow Step 9 (Execute Phase 5 - 测试验证)
+- If Phase 6: Follow Step 10 (Execute Phase 6 - 交付部署)
 
-```bash
-/ceo:execute-plan
-```
-
-## What it does
-
-- Reads existing task plan from `.claudedocs/task_plan.md`
-- Breaks down into 2-5 minute subtasks
-- Dispatches independent subagents per task
-- Performs two-stage code review (spec compliance + quality)
-- Tracks progress with TodoWrite
-
-## Prerequisites
-
-- Must have `.claudedocs/task_plan.md` from Phase 3 (System Architect)
-- Architecture design must be completed
-
-## Examples
-
-```bash
-# Continue from where you left off
-/ceo:execute-plan
-
-# Execute with specific phase
-/ceo:execute-plan --phase=4
-```
+Invoke the ceo skill and follow the appropriate execution steps exactly as presented.
