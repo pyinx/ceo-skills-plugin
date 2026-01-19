@@ -39,78 +39,9 @@ When user requests software development, execute the following workflow:
 
 ---
 
-## Step 1: Verify and Install Agents
+## Step 1: Initialize State Files
 
-### Step 1.1: Check if required agents exist
-
-Use Glob tool to check if required agents exist in user directory:
-```
-Glob pattern: $HOME/.claude/agents/ceo-*.md
-```
-
-### Step 1.2: Evaluate Glob results
-
-**If Glob returns files (agents exist)**:
-- Count the results: should be exactly 6 files
-- Display: `✅ Found {count} CEO agents in ~/.claude/agents/`
-- Proceed to Step 2 (Initialize State Files)
-
-**If Glob returns "No files found" (agents missing)**:
-- Display: `⚠️ CEO agents not found in ~/.claude/agents/`
-- Proceed to Step 1.3 (Install agents)
-
-### Step 1.3: Install missing agents (ONLY if Glob returned no files)
-
-⚠️ **IMPORTANT**: Only execute this step if Glob returned "No files found"
-
-🚨 **DO NOT USE Bash commands - Use Read + Write tools instead**
-
-**Installation process**:
-
-For each required agent file:
-1. Use Read tool to read from project directory:
-   ```
-   Read file: .claude/agents/ceo-product-manager.md
-   ```
-2. Use Write tool to write to user directory:
-   ```
-   Write file: $HOME/.claude/agents/ceo-product-manager.md
-   ```
-
-Repeat for all 6 agents:
-- ceo-product-manager.md
-- ceo-ui-ux-designer.md
-- ceo-system-architect.md
-- ceo-fullstack-developer.md
-- ceo-test-engineer.md
-- ceo-marketing-specialist.md
-
-**Alternative** (if Read+Write fails):
-
-As a fallback, you may use Bash tool:
-```bash
-cp .claude/agents/ceo-*.md ~/.claude/agents/
-```
-
-### Step 1.4: Verify installation
-
-After installation, use Glob to verify:
-```
-Glob pattern: $HOME/.claude/agents/ceo-*.md
-```
-
-Expected results: 6 files
-
-If successful, display:
-```
-✅ CEO agents installed successfully (6/6)
-```
-
-Proceed to Step 2.
-
----
-
-## Step 2: Initialize State Files
+⚠️ **NOTE**: CEO agents are already installed as part of the ceo-skills plugin. No agent verification or installation is required.
 
 Note: The Write tool will automatically create the `.claudedocs` directory if it doesn't exist.
 
@@ -228,7 +159,7 @@ With: "## 当前阶段\n阶段0: 需求探索（完成）→ 阶段1: 需求澄�
 ### Call Product Manager agent
 Use the Task tool to call the ceo-product-manager agent:
 ```
-Agent: ceo-product-manager
+Agent: ceo-skills:ceo-product-manager
 
 ## CEO任务上下文
 
@@ -351,7 +282,7 @@ With: "## 当前阶段\n阶段2: 产品设计"
 ### Call UI/UX Designer agent
 Use the Task tool to call the ceo-ui-ux-designer agent:
 ```
-Agent: ceo-ui-ux-designer
+Agent: ceo-skills:ceo-ui-ux-designer
 
 ## CEO任务上下文
 
@@ -413,7 +344,7 @@ Use Edit tool to update task_plan.md to "阶段3: 架构设计"
 ### Call System Architect agent
 Use the Task tool to call the ceo-system-architect agent:
 ```
-Agent: ceo-system-architect
+Agent: ceo-skills:ceo-system-architect
 
 ## CEO任务上下文
 
@@ -787,7 +718,7 @@ For each subtask:
 
 ```
 Task tool:
-Agent: ceo-fullstack-developer
+Agent: ceo-skills:ceo-fullstack-developer
 
 ## 子任务上下文
 
@@ -836,7 +767,7 @@ If implementer subagent asks questions:
 
 ```
 Task tool:
-Agent: ceo-fullstack-developer (as reviewer)
+Agent: ceo-skills:ceo-fullstack-developer (as reviewer)
 
 ## 规格合规性审查
 
@@ -899,7 +830,7 @@ If spec reviewer returns ❌ 不合规:
 1. Collect issues (缺失功能 OR 过度构建 OR both)
 2. Dispatch implementer subagent to fix:
    ```
-   Agent: ceo-fullstack-developer
+   Agent: ceo-skills:ceo-fullstack-developer
 
    ## 修复规格问题
 
@@ -918,7 +849,7 @@ Proceed to quality review.
 
 ```
 Task tool:
-Agent: ceo-fullstack-developer (as quality reviewer)
+Agent: ceo-skills:ceo-fullstack-developer (as quality reviewer)
 
 ## 代码质量审查
 
@@ -981,7 +912,7 @@ If quality reviewer returns ❌ 需要改进:
 1. Collect issues
 2. Dispatch implementer subagent to fix:
    ```
-   Agent: ceo-fullstack-developer
+   Agent: ceo-skills:ceo-fullstack-developer
 
    ## 修复质量问题
 
@@ -1002,7 +933,7 @@ When all subtasks are complete:
 
 ```
 Task tool:
-Agent: ceo-fullstack-developer
+Agent: ceo-skills:ceo-fullstack-developer
 
 ## 最终代码审查
 
@@ -1111,7 +1042,7 @@ digraph phase5_parallel_dispatch {
 
 ```
 Task tool:
-Agent: ceo-test-engineer
+Agent: ceo-skills:ceo-test-engineer
 
 ## CEO任务上下文
 
@@ -1185,7 +1116,7 @@ For each independent domain, dispatch a fix agent:
 ```
 # Example: Dispatch 3 agents in parallel
 Task tool:
-Agent: ceo-test-engineer
+Agent: ceo-skills:ceo-test-engineer
 
 ## 修复认证测试失败
 
@@ -1228,7 +1159,7 @@ auth.test.ts: 3/3 passing
 
 ```
 Task tool:
-Agent: ceo-test-engineer
+Agent: ceo-skills:ceo-test-engineer
 
 ## 修复数据库测试失败
 
@@ -1237,7 +1168,7 @@ Agent: ceo-test-engineer
 
 ```
 Task tool:
-Agent: ceo-test-engineer
+Agent: ceo-skills:ceo-test-engineer
 
 ## 修复UI测试失败
 
@@ -1293,7 +1224,7 @@ Use Edit tool to update task_plan.md to "阶段6: 交付部署"
 ### Call Marketing Specialist agent
 Use the Task tool to call the ceo-marketing-specialist agent:
 ```
-Agent: ceo-marketing-specialist
+Agent: ceo-skills:ceo-marketing-specialist
 
 ## CEO任务上下文
 
