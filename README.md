@@ -21,6 +21,10 @@
 claude plugin marketplace add https://github.com/pyinx/ceo-skills-plugin.git
 claude plugin install ceo-skills@ceo-skills-marketplace
 
+# 更新已安装的插件
+claude plugin marketplace update ceo-skills-marketplace
+claude plugin update ceo-skills@ceo-skills-marketplace
+
 # 或手动安装
 git clone https://github.com/pyinx/ceo-skills-plugin.git ~/.claude/plugins/ceo-skills-plugin
 cd ~/.claude/plugins/ceo-skills-plugin
