@@ -245,9 +245,9 @@ With: "## 当前阶段\n阶段1: 需求澄清"
 ```
 
 ### Call Product Manager agent
-Use the Task tool to call the ceo-product-manager agent:
+Use the Task tool to launch the ceo-product-manager agent:
 ```
-Agent: ceo-skills:ceo-product-manager
+Launch the ceo-product-manager agent with the following context:
 
 ## CEO任务上下文
 
@@ -372,9 +372,9 @@ With: "## 当前阶段\n阶段2: 产品设计"
 ```
 
 ### Call UI/UX Designer agent
-Use the Task tool to call the ceo-ui-ux-designer agent:
+Use the Task tool to launch the ceo-ui-ux-designer agent:
 ```
-Agent: ceo-skills:ceo-ui-ux-designer
+Launch the ceo-ui-ux-designer agent with the following context:
 
 ## CEO任务上下文
 
@@ -454,9 +454,9 @@ This ensures you have complete context from Phase 0, 1, and 2.
 Use Edit tool to update task_plan.md to "阶段3: 架构设计"
 
 ### Call System Architect agent
-Use the Task tool to call the ceo-system-architect agent:
+Use the Task tool to launch the ceo-system-architect agent:
 ```
-Agent: ceo-skills:ceo-system-architect
+Launch the ceo-system-architect agent with the following context:
 
 ## CEO任务上下文
 
@@ -654,7 +654,7 @@ Task tool: Invoke the subagent-driven-development skill (from superpowers)
 Follow the skill exactly to:
 1. Break architecture into 2-5 minute subtasks
 2. For each subtask:
-   - Dispatch implementer (ceo-skills:ceo-fullstack-developer)
+   - Launch ceo-fullstack-developer agent as implementer
    - Review for spec compliance
    - Review for code quality
    - Fix issues until approved
@@ -711,9 +711,9 @@ With: "## 当前阶段\n阶段5: 测试验证"
 
 **Step 9.2: Call Test Engineer agent**
 
-Use Task tool to generate comprehensive tests:
+Use Task tool to launch the ceo-test-engineer agent:
 ```
-Agent: ceo-skills:ceo-test-engineer
+Launch the ceo-test-engineer agent with the following task:
 
 ## 任务
 1. 编写单元测试（覆盖率≥80%）
@@ -744,7 +744,7 @@ Task tool: Invoke the parallel-dispatch skill (from superpowers)
 
 Follow the skill exactly to:
 1. Group test failures by independent domains
-2. Dispatch parallel fix agents (ceo-skills:ceo-test-engineer)
+2. Launch parallel ceo-test-engineer agents for each domain
 3. Wait for all agents to complete
 4. Review and integrate fixes
 5. Re-test until all pass
@@ -787,9 +787,9 @@ This ensures you have complete context from testing phase.
 Use Edit tool to update task_plan.md to "阶段6: 交付部署"
 
 ### Call Marketing Specialist agent
-Use the Task tool to call the ceo-marketing-specialist agent:
+Use the Task tool to launch the ceo-marketing-specialist agent:
 ```
-Agent: ceo-skills:ceo-marketing-specialist
+Launch the ceo-marketing-specialist agent with the following context:
 
 ## CEO任务上下文
 
