@@ -204,6 +204,8 @@ Then update task_plan.md to mark Phase 0 as completed:
 ```
 Edit: Replace "- [ ] 阶段0: 需求探索（brainstorming）"
 With:  "- [x] 阶段0: 需求探索（brainstorming）"
+Edit: Replace "## 当前阶段\n初始化"
+With: "## 当前阶段\n阶段0: 需求探索（完成）"
 ```
 
 Proceed to Phase 1.
@@ -229,13 +231,6 @@ Read file: .claudedocs/phase0-design.md
 ```
 
 This ensures you have complete context from Phase 0.
-
-### Update task plan current phase
-Use Edit tool to update task_plan.md:
-```
-Replace: "## 当前阶段\n初始化"
-With: "## 当前阶段\n阶段0: 需求探索（完成）→ 阶段1: 需求澄清"
-```
 
 ### Update task plan current phase
 Use Edit tool to update task_plan.md:
@@ -290,7 +285,7 @@ Launch the ceo-product-manager agent with the following context:
 ### Wait for agent completion
 After ceo-product-manager agent completes, proceed to confirmation checkpoint.
 
-### Step 4.1: MANDATORY - User Confirmation Checkpoint
+### Step 4.2: MANDATORY - User Confirmation Checkpoint
 
 ⚠️ **CRITICAL**: You MUST pause here and wait for user confirmation before proceeding.
 
@@ -419,12 +414,7 @@ Launch the ceo-ui-ux-designer agent with the following context:
 After ceo-ui-ux-designer agent completes:
 
 1. Use Edit tool to update task_plan.md: Mark Phase 2 as completed
-2. Display brief completion message:
-   ```
-   🎨 阶段2完成 - UI/UX设计
-   📄 设计文档: .claudedocs/ceo-ui-ux-designer_result.md
-   ```
-3. Proceed directly to Phase 3 (no confirmation required).
+2. Proceed directly to Phase 3 (no confirmation required).
 
 ```
 ═════════════════════════════════════════════════════════════
@@ -451,7 +441,11 @@ Read file: .claudedocs/ceo-ui-ux-designer_result.md
 This ensures you have complete context from Phase 0, 1, and 2.
 
 ### Update task plan current phase
-Use Edit tool to update task_plan.md to "阶段3: 架构设计"
+Use Edit tool to update task_plan.md:
+```
+Replace: "## 当前阶段\n阶段2: 产品设计"
+With: "## 当前阶段\n阶段3: 架构设计"
+```
 
 ### Call System Architect agent
 Use the Task tool to launch the ceo-system-architect agent:
@@ -635,16 +629,13 @@ Replace: "## 当前阶段\n阶段3.5: 工作区准备"
 With: "## 当前阶段\n阶段4: 开发实现"
 ```
 
-**Step 8.2: Change to worktree directory**
-```bash
-cd {WORKTREE_PATH}
-```
-
-**Step 8.3: Extract development tasks from architecture**
+**Step 8.2: Extract development tasks from architecture**
 
 Read the architecture document and identify all development tasks. Group them into 2-5 minute subtasks.
 
-**Step 8.4: Invoke subagent-driven-development skill**
+⚠️ **Note**: All operations should use absolute paths based on {WORKTREE_PATH}.
+
+**Step 8.3: Invoke subagent-driven-development skill**
 
 Use the Task tool to break down development into subtasks and execute with two-stage review:
 
@@ -667,7 +658,7 @@ Follow the skill exactly to:
 - GREEN: Write minimal code to pass
 - REFACTOR: Clean up
 
-**Step 8.5: Update task plan progress**
+**Step 8.4: Update task plan progress**
 ```
 Edit: Replace "- [ ] 阶段4: 开发实现（全栈开发-子任务驱动）"
 With:  "- [x] 阶段4: 开发实现（全栈开发-子任务驱动）"
