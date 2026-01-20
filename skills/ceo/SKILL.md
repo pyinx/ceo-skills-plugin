@@ -193,7 +193,7 @@ digraph phase0_brainstorming {
 
 ⚠️ **DO NOT use AskUserQuestion tool** - brainstorming is a natural conversational process.
 
-**Invoke the brainstorming skill** (from superpowers) and follow it exactly as presented to explore user requirements through Socratic dialogue.
+**Invoke the brainstorming skill** (from superpowers), execute it, then continue to Phase 1.
 
 After brainstorming completes, save design document to:
 ```
@@ -571,7 +571,9 @@ Before starting development, create isolated Git worktree to avoid branch switch
 
 ### Execution
 
-**Invoke the using-git-worktrees skill** (from superpowers) and follow it exactly as presented to:
+**Invoke the using-git-worktrees skill** (from superpowers), execute it, then proceed to Step 8 (Phase 4).
+
+The skill will:
 1. Detect project directory structure
 2. Verify .gitignore settings
 3. Create isolated worktree at `.worktrees/` or `worktrees/`
@@ -642,7 +644,9 @@ Use the Task tool to break down development into subtasks and execute with two-s
 ```
 Task tool: Invoke the subagent-driven-development skill (from superpowers)
 
-Follow the skill exactly to:
+Execute the skill and after completion, proceed to Step 9 (Phase 5).
+
+The skill will:
 1. Break architecture into 2-5 minute subtasks
 2. For each subtask:
    - Launch ceo-fullstack-developer agent as implementer
@@ -733,7 +737,9 @@ Use the Task tool to fix failures in parallel:
 ```
 Task tool: Invoke the parallel-dispatch skill (from superpowers)
 
-Follow the skill exactly to:
+Execute the skill and after all tests pass, proceed to Step 10 (Phase 6).
+
+The skill will:
 1. Group test failures by independent domains
 2. Launch parallel ceo-test-engineer agents for each domain
 3. Wait for all agents to complete
