@@ -1,5 +1,12 @@
 ---
-description: "Launch full-stack development workflow from requirements to deployment. Use when user wants to build a complete app, develop a software project from scratch, or coordinate multiple agents for software development."
+description: "Launch CEO workflow orchestrator: coordinates 6 specialized agents (product, design, architecture, development, testing, marketing) with Superpowers framework integration. Auto-manages development from requirements exploration through deployment."
 ---
 
-Invoke the ceo skill and follow it exactly as presented to you.
+Execute the CEO orchestrator workflow:
+
+1. Check for existing `.claudedocs/task_plan.md` to resume or start new workflow
+2. Follow the 6-phase development process as documented in the skill
+3. Use Superpowers framework skills (brainstorming, git-worktrees, subagent-driven-dev, parallel-dispatch) at appropriate phases
+4. Maintain task plan state and progress tracking throughout
+
+⚠️ This is an orchestrator - execute the workflow steps directly, do not re-invoke this command or skill.

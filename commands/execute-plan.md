@@ -1,12 +1,22 @@
 ---
-description: "Execute existing implementation plan with subagent-driven development. Use when you have a task plan from Phase 3 and want to start development."
+description: "Resume CEO workflow from existing task plan. Continues development from current phase."
 ---
 
-Read the current task plan from `.claudedocs/task_plan.md` to determine which phase to execute.
+Read the current task plan from `.claudedocs/task_plan.md` to determine current phase.
 
-Then follow the ceo skill starting from the appropriate phase:
-- If Phase 4: Follow Step 8 (Execute Phase 4 - 开发实现)
-- If Phase 5: Follow Step 9 (Execute Phase 5 - 测试验证)
-- If Phase 6: Follow Step 10 (Execute Phase 6 - 交付部署)
+Execute the appropriate phase directly:
 
-Invoke the ceo skill and follow the appropriate execution steps exactly as presented.
+**Phase 4 (开发实现)**:
+- Extract development tasks from architecture
+- Invoke subagent-driven-development for task execution
+- Use two-stage code review for quality
+
+**Phase 5 (测试验证)**:
+- Generate comprehensive tests
+- Use parallel-dispatch for independent test failure fixes
+
+**Phase 6 (交付部署)**:
+- Create deployment documentation
+- Generate user manuals and promotion materials
+
+⚠️ Continue workflow execution directly based on task plan state.
