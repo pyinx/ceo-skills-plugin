@@ -1,6 +1,6 @@
 ---
 name: ceo
-version: 6.0
+version: 6.1.0
 description: This skill should be used when the user asks to "build a complete app", "develop a software project from scratch", "create a website with full workflow", "manage a development team", "automate software development from requirements to deployment", or "coordinate multiple agents for software development". Integrates Superpowers frameworks: brainstorming for requirement exploration, git-worktrees for workspace isolation, subagent-driven-development for task execution, parallel-agent-dispatch for testing, TDD for code quality, and two-stage code review for specification compliance.
 context: fork
 user-invocable: true
@@ -240,9 +240,12 @@ With: "## 当前阶段\n阶段1: 需求澄清"
 ```
 
 ### Call Product Manager agent
-Use the Task tool to launch the ceo-product-manager agent:
+
+⚠️ **IMPORTANT**: Execute the following steps in order to ensure the agent completes BEFORE the confirmation checkpoint.
+
+**Step 1: Launch agent**
 ```
-Launch the ceo-product-manager agent with the following context:
+Task tool: Launch the ceo-product-manager agent with the following context:
 
 ## CEO任务上下文
 
@@ -262,28 +265,32 @@ Launch the ceo-product-manager agent with the following context:
 - **最多提问5个问题**：降低用户认知负担
 - **分批提问**：如果问题超过5个，分多次提问，每次最多5个
 - **优先级排序**：先问最重要、最核心的问题
-- **格式要求**：
-  ```
-  Q1: 问题描述
-  A. 选项1
-  B. 选项2
-  C. 选项3
-  推荐: [A/B/C]
-
-  （最多5个问题）
-
-  === 当前批次提问结束 ===
-  等待用户回答后，我将继续下一批次提问。
-  ```
 
 ### 输出要求
 - 输出完整的PRD文档到 .claudedocs/ceo-product-manager_result.md
 - 包含用户画像、功能列表、优先级
 - 如果有未问的问题，在文档末尾列出"待确认的问题"
+
+Save the returned task_id as {PRODUCT_MANAGER_TASK_ID}
 ```
 
-### Wait for agent completion
-After ceo-product-manager agent completes, proceed to confirmation checkpoint.
+**Step 2: Wait for agent completion**
+```
+TaskOutput: Wait for {PRODUCT_MANAGER_TASK_ID}
+Parameters: block=true, timeout=300000
+
+⚠️ CRITICAL: DO NOT PROCEED until agent completes
+⚠️ DO NOT proceed to confirmation checkpoint until this step completes
+```
+
+**Step 3: Verify output file exists**
+```
+Read file: .claudedocs/ceo-product-manager_result.md
+
+⚠️ If file doesn't exist, agent failed - inform user and ask what to do
+```
+
+After agent completes and output is verified, proceed to confirmation checkpoint below.
 
 ### Step 4.2: MANDATORY - User Confirmation Checkpoint
 
@@ -367,9 +374,12 @@ With: "## 当前阶段\n阶段2: 产品设计"
 ```
 
 ### Call UI/UX Designer agent
-Use the Task tool to launch the ceo-ui-ux-designer agent:
+
+⚠️ **IMPORTANT**: Execute the following steps in order to ensure the agent completes BEFORE proceeding.
+
+**Step 1: Launch agent**
 ```
-Launch the ceo-ui-ux-designer agent with the following context:
+Task tool: Launch the ceo-ui-ux-designer agent with the following context:
 
 ## CEO任务上下文
 
@@ -392,26 +402,30 @@ Launch the ceo-ui-ux-designer agent with the following context:
 - **最多提问5个问题**：降低用户认知负担
 - **分批提问**：如果问题超过5个，分多次提问，每次最多5个
 - **优先级排序**：先问最重要、最核心的设计问题
-- **格式要求**：
-  ```
-  Q1: 设计相关问题
-  A. 选项1
-  B. 选项2
-  C. 选项3
-  推荐: [A/B/C]
-
-  （最多5个问题）
-
-  === 当前批次提问结束 ===
-  ```
 
 ### 输出要求
 - 输出完整的设计文档到 .claudedocs/ceo-ui-ux-designer_result.md
 - 包含用户故事、交互流程、视觉设计
+
+Save the returned task_id as {UI_UX_TASK_ID}
 ```
 
-### Wait for agent completion
-After ceo-ui-ux-designer agent completes:
+**Step 2: Wait for agent completion**
+```
+TaskOutput: Wait for {UI_UX_TASK_ID}
+Parameters: block=true, timeout=300000
+
+⚠️ CRITICAL: DO NOT PROCEED until agent completes
+```
+
+**Step 3: Verify output file exists**
+```
+Read file: .claudedocs/ceo-ui-ux-designer_result.md
+
+⚠️ If file doesn't exist, agent failed - inform user and ask what to do
+```
+
+After agent completes and output is verified:
 
 1. Use Edit tool to update task_plan.md: Mark Phase 2 as completed
 2. Proceed directly to Phase 3 (no confirmation required).
@@ -448,9 +462,12 @@ With: "## 当前阶段\n阶段3: 架构设计"
 ```
 
 ### Call System Architect agent
-Use the Task tool to launch the ceo-system-architect agent:
+
+⚠️ **CRITICAL**: Execute the following steps in order to ensure the agent completes BEFORE the confirmation checkpoint.
+
+**Step 1: Launch agent**
 ```
-Launch the ceo-system-architect agent with the following context:
+Task tool: Launch the ceo-system-architect agent with the following context:
 
 ## CEO任务上下文
 
@@ -473,24 +490,31 @@ Launch the ceo-system-architect agent with the following context:
 - **最多提问5个问题**：降低用户认知负担
 - **分批提问**：如果技术决策问题超过5个，分多次提问
 - **优先级排序**：先问最关键的技术选型问题
-- **格式要求**：
-  ```
-  Q1: 技术选型问题
-  A. 技术方案A
-  B. 技术方案B
-  推荐: [A/B]
-
-  （最多5个问题）
-
-  === 当前批次提问结束 ===
-  ```
 
 ### 输出要求
 - 输出完整的架构设计文档到 .claudedocs/ceo-system-architect_result.md
+
+Save the returned task_id as {ARCHITECT_TASK_ID}
 ```
 
-### Wait for agent completion
-After ceo-system-architect agent completes, **YOU MUST STOP HERE** and execute the confirmation checkpoint below.
+**Step 2: Wait for agent completion**
+```
+TaskOutput: Wait for {ARCHITECT_TASK_ID}
+Parameters: block=true, timeout=300000
+
+⚠️ CRITICAL: DO NOT PROCEED until agent completes
+⚠️ DO NOT proceed to confirmation checkpoint until this step completes
+```
+
+**Step 3: Verify output file exists**
+```
+Read file: .claudedocs/ceo-system-architect_result.md
+
+⚠️ If file doesn't exist, agent failed - inform user and ask what to do
+⚠️ DO NOT proceed to confirmation checkpoint if file doesn't exist
+```
+
+After agent completes and output is verified, **YOU MUST STOP HERE** and execute the confirmation checkpoint below.
 
 ⚠️ **DO NOT PROCEED to Phase 3.5 until user confirms the architecture!**
 
@@ -706,9 +730,11 @@ With: "## 当前阶段\n阶段5: 测试验证"
 
 **Step 9.2: Call Test Engineer agent**
 
-Use Task tool to launch the ceo-test-engineer agent:
+⚠️ **IMPORTANT**: Execute the following steps in order to ensure the agent completes BEFORE checking results.
+
+**Step 1: Launch agent**
 ```
-Launch the ceo-test-engineer agent with the following task:
+Task tool: Launch the ceo-test-engineer agent with the following task:
 
 ## 任务
 1. 编写单元测试（覆盖率≥80%）
@@ -719,13 +745,28 @@ Launch the ceo-test-engineer agent with the following task:
 ### 输出要求
 - 输出测试报告到 .claudedocs/ceo-test-engineer_result.md
 - 包含：测试结果、覆盖率、发现的缺陷
+
+Save the returned task_id as {TEST_ENGINEER_TASK_ID}
+```
+
+**Step 2: Wait for agent completion**
+```
+TaskOutput: Wait for {TEST_ENGINEER_TASK_ID}
+Parameters: block=true, timeout=600000
+
+⚠️ CRITICAL: DO NOT PROCEED until agent completes
+```
+
+**Step 3: Verify output file exists**
+```
+Read file: .claudedocs/ceo-test-engineer_result.md
+
+⚠️ If file doesn't exist, agent failed - inform user and ask what to do
 ```
 
 **Step 9.3: Check test results**
 
-```
-Read file: .claudedocs/ceo-test-engineer_result.md
-```
+Analyze the test results from the file read above:
 
 **If all tests pass** → Proceed to Step 10 (Phase 6)
 
@@ -784,9 +825,12 @@ This ensures you have complete context from testing phase.
 Use Edit tool to update task_plan.md to "阶段6: 交付部署"
 
 ### Call Marketing Specialist agent
-Use the Task tool to launch the ceo-marketing-specialist agent:
+
+⚠️ **IMPORTANT**: Execute the following steps in order to ensure the agent completes BEFORE displaying results.
+
+**Step 1: Launch agent**
 ```
-Launch the ceo-marketing-specialist agent with the following context:
+Task tool: Launch the ceo-marketing-specialist agent with the following context:
 
 ## CEO任务上下文
 
@@ -809,21 +853,26 @@ Launch the ceo-marketing-specialist agent with the following context:
 - **最多提问5个问题**：降低用户认知负担
 - **分批提问**：如果问题超过5个，分多次提问，每次最多5个
 - **优先级排序**：先问最重要的交付相关问题
-- **格式要求**：
-  ```
-  Q1: 交付相关问题
-  A. 选项1
-  B. 选项2
-  推荐: [A/B]
 
-  （最多5个问题）
+Save the returned task_id as {MARKETING_TASK_ID}
+```
 
-  === 当前批次提问结束 ===
-  ```
+**Step 2: Wait for agent completion**
+```
+TaskOutput: Wait for {MARKETING_TASK_ID}
+Parameters: block=true, timeout=300000
 
-### Wait for agent completion, then display results
+⚠️ CRITICAL: DO NOT PROCEED until agent completes
+```
 
-After ceo-marketing-specialist agent completes:
+**Step 3: Verify output file exists**
+```
+Read file: .claudedocs/ceo-marketing-specialist_result.md
+
+⚠️ If file doesn't exist, agent failed - inform user and ask what to do
+```
+
+After agent completes and output is verified:
 
 1. Use Edit tool to update task_plan.md:
    - Mark Phase 6 as completed

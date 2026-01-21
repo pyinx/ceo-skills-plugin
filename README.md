@@ -109,7 +109,7 @@ MIT License - 详见 [LICENSE](LICENSE)
 
 ---
 
-**版本**: 6.0.0
+**版本**: 6.1.0
 **集成**: Superpowers Framework
 **组件**: 6 agents + 11 skills
 **仓库**: https://github.com/pyinx/ceo-skills-plugin
