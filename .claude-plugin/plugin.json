@@ -1,7 +1,7 @@
 {
   "name": "ceo-skills",
   "description": "Full-stack development team orchestrator: 6 specialized agents with 11 Superpowers framework skills for automated workflow from requirements to deployment",
-  "version": "6.0.0",
+  "version": "6.1.0",
   "author": {
     "name": "pyinx",
     "email": "pyinx@example.com"

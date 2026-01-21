@@ -72,7 +72,7 @@ Uses **planning-with-files** three-file system:
 
 ### Superpowers Framework
 
-CEO Skills v6.0 deeply integrates Superpowers:
+CEO Skills v6.1.0 deeply integrates Superpowers:
 
 - **Phase 0**: Uses `brainstorming` for natural dialogue exploration
 - **Phase 3.5**: Uses `using-git-worktrees` for safe workspace isolation

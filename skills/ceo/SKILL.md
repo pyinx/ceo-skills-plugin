@@ -19,7 +19,7 @@ allowed-tools:
   - "mcp__.*"
 ---
 
-# CEO Agent - Direct Orchestration (v6.0)
+# CEO Agent - Direct Orchestration (v6.1.0)
 
 When user requests software development, execute the following workflow:
 
@@ -932,12 +932,26 @@ Create `.claudedocs/deliverable.md` with the following content:
 📋 交付物索引: .claudedocs/deliverable.md
 🌳 工作树位置: {WORKTREE_PATH}
 
-感谢使用CEO Agent v6.0！
+感谢使用CEO Agent v6.1.0！
 ```
 
 ---
 
 ## Version History
+
+### Key Changes in v6.1.0
+
+**Bug Fix: 强制用户确认检查点生效**
+
+- 🐛 修复了使用 Task 工具调用 agent 时，强制检查点被跳过的问题
+- ✅ 采用 TaskOutput 同步等待机制，确保 agent 完成后才进入检查点
+- ✅ 修改了 5 处 agent 调用（Phase 1, 2, 3, 5, 6）
+- ✅ 保留 agent 专业能力的同时，确保检查点强制执行
+
+**技术改进**：
+- 所有 agent 调用现在遵循三步流程：Launch → Wait → Verify
+- 使用 `TaskOutput(task_id, block=true)` 等待 agent 完成
+- 验证输出文件存在后才继续执行
 
 ### Key Changes in v6.0
 
