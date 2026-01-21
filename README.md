@@ -19,11 +19,11 @@
 ```bash
 # 通过 Marketplace 安装（推荐）
 claude plugin marketplace add https://github.com/pyinx/ceo-skills-plugin.git
-claude plugin install ceo-skills@ceo-skills-marketplace
+claude plugin install ceo@ceo-skills-marketplace
 
 # 更新已安装的插件
 claude plugin marketplace update ceo-skills-marketplace
-claude plugin update ceo-skills@ceo-skills-marketplace
+claude plugin update ceo@ceo-skills-marketplace
 
 # 或手动安装
 git clone https://github.com/pyinx/ceo-skills-plugin.git ~/.claude/plugins/ceo-skills-plugin
@@ -38,10 +38,10 @@ cd ~/.claude/plugins/ceo-skills-plugin
 
 ```bash
 # 启动完整workflow
-/ceo "我想要一个博客系统"
+/ceo:workflow "我想要一个博客系统"
 
 # 从特定阶段开始
-/ceo --start-phase=4 "继续开发"
+/ceo:execute-plan --start-phase=4 "继续开发"
 
 # 探索需求
 /ceo:brainstorm "探索待办事项应用需求"
@@ -109,7 +109,7 @@ MIT License - 详见 [LICENSE](LICENSE)
 
 ---
 
-**版本**: 6.1.0
+**版本**: 6.2.0
 **集成**: Superpowers Framework
 **组件**: 6 agents + 11 skills
 **仓库**: https://github.com/pyinx/ceo-skills-plugin

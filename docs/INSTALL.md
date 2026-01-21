@@ -11,7 +11,7 @@
 ### Step 2: Install Plugin
 
 ```bash
-/plugin install ceo-skills@<marketplace-name>
+/plugin install ceo@<marketplace-name>
 ```
 
 ### Step 3: Verify Installation

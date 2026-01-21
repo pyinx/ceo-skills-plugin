@@ -1,6 +1,6 @@
 ---
 name: ceo
-version: 6.1.0
+version: 6.2.0
 description: This skill should be used when the user asks to "build a complete app", "develop a software project from scratch", "create a website with full workflow", "manage a development team", "automate software development from requirements to deployment", or "coordinate multiple agents for software development". Integrates Superpowers frameworks: brainstorming for requirement exploration, git-worktrees for workspace isolation, subagent-driven-development for task execution, parallel-agent-dispatch for testing, TDD for code quality, and two-stage code review for specification compliance.
 context: fork
 user-invocable: true
@@ -19,7 +19,7 @@ allowed-tools:
   - "mcp__.*"
 ---
 
-# CEO Agent - Direct Orchestration (v6.1.0)
+# CEO Agent - Direct Orchestration (v6.2.0)
 
 When user requests software development, execute the following workflow:
 
@@ -932,12 +932,27 @@ Create `.claudedocs/deliverable.md` with the following content:
 📋 交付物索引: .claudedocs/deliverable.md
 🌳 工作树位置: {WORKTREE_PATH}
 
-感谢使用CEO Agent v6.1.0！
+感谢使用CEO Agent v6.2.0！
 ```
 
 ---
 
 ## Version History
+
+### Key Changes in v6.2.0
+
+**命令规范化改进**
+
+- 🔧 修复了 CLI 命令显示与文档不一致的问题
+- ✅ 重命名命令文件：`ceo.md` → `workflow.md`
+- ✅ 修改插件名称：`ceo-skills` → `ceo`
+- ✅ 统一命令前缀为 `/ceo:`
+
+**新命令格式**：
+- `/ceo:workflow` - 启动完整 workflow
+- `/ceo:brainstorm` - 需求探索
+- `/ceo:write-plan` - 创建实现计划
+- `/ceo:execute-plan` - 执行实现计划
 
 ### Key Changes in v6.1.0
 

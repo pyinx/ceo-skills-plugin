@@ -1,5 +1,34 @@
 # CEO Skills Version History
 
+## v6.2.0 (2026-01-21)
+
+### 🔧 命令规范化改进
+
+**问题**：
+Claude Code CLI 显示的命令格式为 `/ceo-skills:ceo` 等，与 README.md 中描述的 `/ceo` 不一致，造成用户困惑。
+
+**解决方案**：
+采用方案 C - 重命名命令文件并修改插件名称，统一命令前缀为 `/ceo:`
+
+**修改内容**：
+1. 重命名命令文件：`commands/ceo.md` → `commands/workflow.md`
+2. 修改插件名称：`ceo-skills` → `ceo`
+3. 更新安装命令：`ceo-skills@ceo-skills-marketplace` → `ceo@ceo-skills-marketplace`
+
+**新命令格式**：
+- `/ceo:workflow` - 启动完整 workflow
+- `/ceo:brainstorm` - 需求探索
+- `/ceo:write-plan` - 创建实现计划
+- `/ceo:execute-plan` - 执行实现计划
+
+**改进效果**：
+- ✅ 命令简洁统一：所有命令前缀为 `/ceo:`
+- ✅ 与 CLI 实际显示一致
+- ✅ 避免重复的 `/ceo-skills:ceo`
+- ✅ 用户体验更好
+
+---
+
 ## v6.1.0 (2026-01-21)
 
 ### 🐛 Bug Fix: 强制用户确认检查点生效
@@ -60,7 +89,7 @@
 
 ### 新增Commands
 
-- `/ceo` - 启动完整workflow
+- `/ceo:workflow` - 启动完整workflow
 - `/ceo:brainstorm` - 需求探索
 - `/ceo:write-plan` - 创建实现计划
 - `/ceo:execute-plan` - 执行实现计划
