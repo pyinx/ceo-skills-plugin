@@ -825,7 +825,7 @@ Response:
 
 ### 相关文档
 
-- [CEO Skill](../skills/ceo/skill.md)
+- [CEO Skill](../skills/ceo/SKILL.md)
 - [通信协议](../protocols/communication-protocol.md)
 
 ---

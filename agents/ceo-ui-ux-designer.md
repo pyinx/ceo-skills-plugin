@@ -608,7 +608,7 @@ async function handleCEOAssignment(message: TaskAssignmentMessage): Promise<void
 
 ### 相关文档
 
-- [CEO Skill](../skills/ceo/skill.md)
+- [CEO Skill](../skills/ceo/SKILL.md)
 - [通信协议](../protocols/communication-protocol.md)
 
 ---
