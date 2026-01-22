@@ -1,15 +1,16 @@
 # CEO Skills - Full-Stack Development Team
 
-从模糊需求到产品交付的全栈开发团队，集成6个专业agents和11个Superpowers框架skills。
+从模糊需求到产品交付的全栈开发团队，集成7个专业agents和11个Superpowers框架skills。
 
 ## ✨ 特性
 
 - 🎯 **端到端自动化**：从需求探索到产品交付的完整workflow
-- 👥 **专业分工**：6个专业agents（产品、设计、架构、开发、测试、营销）
+- 👥 **专业分工**：7个专业agents（产品、设计、架构、开发、测试、集成测试、营销）
 - 🧪 **TDD强制**：测试驱动开发，确保代码质量
 - 🔍 **两阶段审查**：规格合规性 + 代码质量双重保障
 - ⚡ **并行测试**：独立失败并行修复，提升效率
 - 🌳 **工作区隔离**：Git worktrees避免环境污染
+- 🌐 **集成测试**：完整的E2E测试（使用Chrome DevTools MCP）
 - 📦 **一键安装**：完整插件包，所有依赖自包含
 
 ## 🚀 快速开始
@@ -45,6 +46,9 @@ cd ~/.claude/plugins/ceo-skills-plugin
 
 # 探索需求
 /ceo:brainstorm "探索待办事项应用需求"
+
+# 执行集成测试（新增）
+/ceo:integration-test
 ```
 
 ## 📖 工作流程
@@ -62,14 +66,15 @@ cd ~/.claude/plugins/ceo-skills-plugin
 
 ## 📦 组件清单
 
-### 6个专业Agents
+### 7个专业Agents
 
 1. ceo-product-manager - 产品需求文档
 2. ceo-ui-ux-designer - 用户故事和交互设计
 3. ceo-system-architect - 技术架构设计
 4. ceo-fullstack-developer - 全栈开发实现
 5. ceo-test-engineer - 测试和质量保证
-6. ceo-marketing-specialist - 部署文档和推广
+6. **ceo-integration-tester** - **集成测试和E2E测试（新增）**
+7. ceo-marketing-specialist - 部署文档和推广
 
 ### 11个集成Skills
 
@@ -109,7 +114,40 @@ MIT License - 详见 [LICENSE](LICENSE)
 
 ---
 
-**版本**: 6.2.0
-**集成**: Superpowers Framework
-**组件**: 6 agents + 11 skills
+**版本**: 6.3.0
+**集成**: Superpowers Framework + Chrome DevTools MCP
+**组件**: 7 agents + 11 skills
 **仓库**: https://github.com/pyinx/ceo-skills-plugin
+
+## 🆕 v6.3.0 更新
+
+### 新增集成测试功能
+
+- 🌐 **新增 Agent**: `ceo-integration-tester` - 集成测试工程师
+- 🧪 **新增命令**: `/ceo:integration-test` - 执行完整的前后端集成测试
+- 📸 **E2E测试**: 使用 Chrome DevTools MCP 进行真实浏览器测试
+- ⚡ **性能测试**: LCP、FID、CLS 等核心性能指标
+- 📊 **详细报告**: 自动生成测试报告和修复建议
+
+### 使用场景
+
+在 CEO workflow 完成后，手动执行集成测试：
+
+```bash
+# 1. 完成开发workflow
+/ceo:workflow "我想要一个博客系统"
+
+# 2. workflow完成后，执行集成测试
+/ceo:integration-test
+
+# 3. 查看测试报告
+cat .claudedocs/integration-test-report.md
+```
+
+### 测试覆盖
+
+- ✅ 环境检查（项目结构、依赖、配置）
+- ✅ 服务启动验证（后端、前端）
+- ✅ API集成测试（所有端点）
+- ✅ 前端E2E测试（用户故事场景）
+- ✅ 性能测试（LCP、FID、CLS、TTFB）
