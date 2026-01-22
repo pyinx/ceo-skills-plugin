@@ -1,6 +1,6 @@
 {
   "name": "ceo",
-  "description": "Full-stack development team orchestrator: 6 specialized agents with 11 Superpowers framework skills for automated workflow from requirements to deployment",
+  "description": "Full-stack development team orchestrator: 7 specialized agents with 11 Superpowers framework skills for automated workflow from requirements to deployment",
   "version": "6.3.0",
   "author": {
     "name": "pyinx",
@@ -21,21 +21,5 @@
     "integration-testing",
     "e2e-testing",
     "chrome-devtools"
-  ],
-  "agents": [
-    "ceo-product-manager",
-    "ceo-ui-ux-designer",
-    "ceo-system-architect",
-    "ceo-fullstack-developer",
-    "ceo-test-engineer",
-    "ceo-marketing-specialist",
-    "ceo-integration-tester"
-  ],
-  "commands": [
-    "ceo:workflow",
-    "ceo:brainstorm",
-    "ceo:write-plan",
-    "ceo:execute-plan",
-    "ceo:integration-test"
   ]
 }
