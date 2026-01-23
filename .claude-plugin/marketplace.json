@@ -9,8 +9,8 @@
   "plugins": [
     {
       "name": "ceo",
-      "description": "Full-stack development team: 7 specialized agents with Superpowers framework integration for automated workflow from requirements to deployment",
-      "version": "6.3.0",
+      "description": "Full-stack development team: 8 specialized agents with Superpowers framework integration for automated workflow from requirements to deployment. 🆕 v6.4.0: Added mobile development support with platform decision and dynamic agent activation.",
+      "version": "6.4.0",
       "source": "./",
       "strict": false,
       "author": {
