@@ -433,24 +433,61 @@ export const useCamera = () => {
 
 ```typescript
 /**
- * 性能优化
+ * 性能优化（集成react-native-best-practices skill）
  */
 async function optimizePerformance(): Promise<void> {
   console.log('⚡ 开始性能优化...\n');
 
-  // 1. 使用Flash List替代FlatList
-  await implementFlashList();
+  // 1. 加载react-native-best-practices skill
+  const optimizationGuide = await loadSkill('react-native-best-practices');
 
-  // 2. 图片优化
-  await optimizeImages();
+  // 2. FPS和重渲染优化（CRITICAL）
+  console.log('📊 优化FPS和重渲染...');
+  await applyOptimization(optimizationGuide, 'js-profile-react.md');
+  await applyOptimization(optimizationGuide, 'js-measure-fps.md');
+  await applyOptimization(optimizationGuide, 'js-lists-flatlist-flashlist.md');
+  await applyOptimization(optimizationGuide, 'js-react-compiler.md');
 
-  // 3. 内存管理
-  await implementMemoryManagement();
+  // 3. Bundle大小优化（CRITICAL）
+  console.log('📦 优化Bundle大小...');
+  await applyOptimization(optimizationGuide, 'bundle-analyze-js.md');
+  await applyOptimization(optimizationGuide, 'bundle-barrel-exports.md');
+  await applyOptimization(optimizationGuide, 'bundle-tree-shaking.md');
 
-  // 4. 启动优化
-  await optimizeStartupTime();
+  // 4. TTI优化（HIGH）
+  console.log('🚀 优化启动时间...');
+  await applyOptimization(optimizationGuide, 'native-measure-tti.md');
+  await applyOptimization(optimizationGuide, 'bundle-hermes-mmap.md');
+
+  // 5. Native性能优化（HIGH）
+  console.log('⚡ 优化Native性能...');
+  await applyOptimization(optimizationGuide, 'native-turbo-modules.md');
+  await applyOptimization(optimizationGuide, 'native-sdks-over-polyfills.md');
+
+  // 6. 内存管理（MEDIUM-HIGH）
+  console.log('💾 优化内存管理...');
+  await applyOptimization(optimizationGuide, 'js-memory-leaks.md');
+  await applyOptimization(optimizationGuide, 'native-memory-leaks.md');
+
+  // 7. 动画优化（MEDIUM）
+  console.log('🎨 优化动画性能...');
+  await applyOptimization(optimizationGuide, 'js-animations-reanimated.md');
 
   console.log('✅ 性能优化完成\n');
+}
+
+/**
+ * 应用单个优化指南
+ */
+async function applyOptimization(
+  skill: any,
+  referenceFile: string
+): Promise<void> {
+  const guide = await skill.loadReference(referenceFile);
+  console.log(`  ✓ 应用 ${referenceFile}`);
+
+  // 根据指南实施优化
+  // 这里会根据referenceFile的内容实施具体的优化措施
 }
 
 /**
@@ -779,13 +816,37 @@ project/
 
 ### 3. 性能检查清单
 
-- [ ] 使用Flash List替代FlatList
+#### Critical（关键，必须修复）
+- [ ] **FPS & Re-renders**：使用Flash List替代FlatList/ScrollView
+- [ ] **FPS & Re-renders**：应用React Compiler自动memoization
+- [ ] **FPS & Re-renders**：使用atomic state（Jotai/Zustand）减少重渲染
+- [ ] **Bundle Size**：避免barrel imports，直接从源文件导入
+- [ ] **Bundle Size**：启用tree shaking（Expo SDK 52+或Re.Pack）
+- [ ] **Bundle Size**：移除不必要的Intl polyfills（Hermes原生支持）
+
+#### High（高优先级，显著改进）
+- [ ] **TTI Optimization**：禁用Android上的JS bundle压缩（启用Hermes mmap）
+- [ ] **TTI Optimization**：使用native navigation（react-native-screens）
+- [ ] **TTI Optimization**：使用InteractionManager延迟非关键工作
+- [ ] **Native Performance**：重计算使用background threads
+- [ ] **Native Performance**：Turbo Modules优先使用async方法
+- [ ] **Native Performance**：性能关键代码使用C++
+- [ ] **Memory Management**：JS内存泄漏检查（React DevTools Profiler）
+- [ ] **Memory Management**：使用useDeferredValue处理昂贵计算
+- [ ] **Memory Management**：避免在render中创建函数/对象
+
+#### Medium（中等优先级，值得优化）
+- [ ] **Animations**：使用Reanimated worklets实现动画
+- [ ] **Animations**：避免使用Animated API，改用Reanimated
+- [ ] **TextInput**：使用uncontrolled components优化输入性能
+- [ ] **Bundle Size**：启用R8进行Android native code shrinking
+- [ ] **Bundle Size**：分析app大小（Emerge Tools/Expo Atlas）
+- [ ] **Native**：Native memory leak检查（Xcode Instruments/Android Studio Profiler）
+
+#### 基础优化
 - [ ] 图片使用expo-image并优化尺寸
-- [ ] 使用useMemo和useCallback优化重渲染
-- [ ] 避免在render中创建函数和对象
 - [ ] 使用React.memo优化组件
 - [ ] 懒加载屏幕和组件
-- [ ] 使用React Native Reanimated实现动画
 
 ### 4. 测试清单
 
@@ -798,6 +859,7 @@ project/
 
 ## 使用的Skills
 
+- `react-native-best-practices`：React Native性能优化和最佳实践（基于Callstack 9+年经验）
 - `frontend-design`：移动端UI组件生成
 - `tdd`：测试驱动开发
 

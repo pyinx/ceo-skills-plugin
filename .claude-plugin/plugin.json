@@ -1,7 +1,7 @@
 {
   "name": "ceo",
-  "description": "Full-stack development team orchestrator: 8 specialized agents with 11 Superpowers framework skills for automated workflow from requirements to deployment. 🆕 v6.4.0: Added mobile development support with platform decision and dynamic agent activation.",
-  "version": "6.4.0",
+  "description": "Full-stack development team orchestrator: 8 specialized agents with 11 Superpowers framework skills for automated workflow from requirements to deployment. 🆕 v6.5.0: Enhanced mobile development with Callstack's React Native best practices for professional performance optimization.",
+  "version": "6.5.0",
   "author": {
     "name": "pyinx",
     "email": "pyinx@example.com"
