@@ -1,7 +1,7 @@
 ---
 name: ceo
-version: 6.3.0
-description: This skill should be used when the user asks to "build a complete app", "develop a software project from scratch", "create a website with full workflow", "manage a development team", "automate software development from requirements to deployment", or "coordinate multiple agents for software development". Integrates Superpowers frameworks: brainstorming for requirement exploration, git-worktrees for workspace isolation, subagent-driven-development for task execution, parallel-agent-dispatch for testing, TDD for code quality, and two-stage code review for specification compliance. Also includes integration testing with Chrome DevTools MCP for end-to-end validation.
+version: 6.4.0
+description: This skill should be used when the user asks to "build a complete app", "develop a software project from scratch", "create a website with full workflow", "manage a development team", "automate software development from requirements to deployment", or "coordinate multiple agents for software development". Integrates Superpowers frameworks: brainstorming for requirement exploration, git-worktrees for workspace isolation, subagent-driven-development for task execution, parallel-agent-dispatch for testing, TDD for code quality, and two-stage code review for specification compliance. Also includes integration testing with Chrome DevTools MCP for end-to-end validation. 🆕 v6.4.0: Mobile development support with platform decision and dynamic agent activation.
 context: fork
 user-invocable: true
 allowed-tools:
@@ -61,8 +61,9 @@ Create `.claudedocs/task_plan.md` with the following content:
 - [ ] 阶段1: 需求澄清（产品经理）
 - [ ] 阶段2: 产品设计（UI/UX设计师）
 - [ ] 阶段3: 架构设计（系统架构师）
+- [ ] 阶段3.3: 平台决策（Web/Mobile/Both）🆕
 - [ ] 阶段3.5: 工作区准备（git-worktrees）
-- [ ] 阶段4: 开发实现（全栈开发-子任务驱动）
+- [ ] 阶段4: 开发实现（并行：Web+Mobile）🆕
 - [ ] 阶段5: 测试验证（测试工程师-并行修复）
 - [ ] 阶段6: 交付部署（市场营销师）
 
@@ -556,8 +557,8 @@ Options:
 **If user selects ✅ 批准架构**:
 1. Use Edit tool to update task_plan.md:
    - Mark Phase 3 as completed
-   - Update current phase to "阶段3.5: 工作区准备"
-2. Proceed to Step 7 (Phase 3.5).
+   - Update current phase to "阶段3.3: 平台决策"
+2. Proceed to Step 6.3 (Phase 3.3 - 平台决策).
 
 ```
 ═════════════════════════════════════════════════════════════
@@ -565,8 +566,181 @@ Options:
 ═════════════════════════════════════════════════════════════
 
 📄 架构文档: .claudedocs/ceo-system-architect_result.md
+📋 下一步: Phase 3.3 - 平台决策（Web/Mobile/Both）
+```
+
+---
+
+### Step 6.3: 🆕 Phase 3.3 - 平台决策（NEW in v6.4.0）
+
+🆕 **NEW in v6.4.0**: 在架构设计后进行平台决策，动态决定开发Web、Mobile还是Both。
+
+### Purpose
+
+根据产品需求、用户场景、功能需求和技术约束，决定开发平台：
+- **Web Only**: 仅Web应用
+- **Mobile Only**: 仅移动应用
+- **Both**: Web + Mobile并行开发
+
+### 决策流程
+
+**Step 1: 分析决策因素**
+
+基于以下因素进行分析：
+
+```yaml
+决策因素:
+  用户因素:
+    - 目标用户类型（办公用户/移动用户/全场景用户）
+    - 主要使用设备（桌面/移动/混合）
+    - 使用场景（固定/移动/灵活）
+
+  功能因素:
+    - 需要的原生功能（GPS、相机、传感器等）
+    - 复杂表单处理（Web优势）
+    - 实时协作（Web优势）
+    - 离线需求（Mobile优势）
+
+  技术因素:
+    - 技术栈复杂度
+    - 开发时间要求
+    - 团队能力匹配
+
+  约束因素:
+    - 开发预算
+    - 上市时间要求
+    - 维护成本考虑
+```
+
+**Step 2: 生成平台决策**
+
+基于分析生成决策文档：
+
+```typescript
+interface PlatformDecision {
+  // 目标平台
+  platforms: ('web' | 'mobile')[];
+
+  // 开发优先级
+  priority: 'web-first' | 'mobile-first' | 'parallel';
+
+  // 决策理由
+  rationale: string;
+
+  // 实施建议
+  implementation: {
+    phasedRollout: boolean;
+    mvpPlatform: 'web' | 'mobile';
+    featuresByPlatform: {
+      web: string[];
+      mobile: string[];
+      shared: string[];
+    };
+  };
+}
+```
+
+**Step 3: 保存决策文档**
+
+使用Write工具创建平台决策文档：
+
+```bash
+Write file: .claudedocs/platform-decision.md
+
+Content:
+# 平台决策文档
+
+## 决策结果
+- **目标平台**: {web | mobile | both}
+- **开发优先级**: {web-first | mobile-first | parallel}
+- **决策理由**: {rationale}
+
+## 实施计划
+- **分阶段发布**: {yes | no}
+- **MVP平台**: {web | mobile}
+
+## 功能分配
+- **Web独有功能**: [...]
+- **Mobile独有功能**: [...]
+- **共享功能**: [...]
+```
+
+**Step 4: 更新任务计划**
+
+使用Edit工具更新task_plan.md：
+
+```bash
+Replace: "## 当前阶段\n阶段3: 架构设计"
+With: "## 当前阶段\n阶段3.3: 平台决策"
+```
+
+### Step 6.4: 平台决策确认检查点
+
+🚨 **CRITICAL CHECKPOINT - MANDATORY USER CONFIRMATION REQUIRED**
+
+**Step 1**: 显示平台决策文档预览：
+
+```bash
+Read file: .claudedocs/platform-decision.md
+Limit: 30 lines
+Display formatted header: "📱 平台决策预览"
+```
+
+**Step 2**: 使用AskUserQuestion工具获取用户确认：
+
+```bash
+Question: "根据产品需求和技术架构分析，建议开发{platforms}，采用{priority}策略。是否批准此平台决策？"
+Header: "📱 检查点 2.5 - 平台决策确认"
+Options:
+  - label: "✅ 批准决策"
+    description: "同意平台决策，继续工作区准备"
+  - label: "📝 修改决策"
+    description: "有不同意见，需要调整平台决策"
+  - label: "🛑 终止workflow"
+    description: "结束整个开发流程"
+```
+
+**Step 3**: ⚠️ **等待用户响应 - 不要继续执行**
+
+### Step 6.5: 处理用户决策
+
+**如果用户选择 ✅ 批准决策**:
+
+1. 使用Edit工具更新task_plan.md：
+   - 标记阶段3.3为已完成
+   - 更新当前阶段为"阶段3.5: 工作区准备"
+   - 添加平台决策信息到全局目标
+
+```bash
+Edit: task_plan.md
+Add to "## 全局目标":
+  - 开发平台: {platforms}
+  - 开发策略: {priority}
+```
+
+2. 继续执行Step 7 (Phase 3.5)
+
+```
+═════════════════════════════════════════════════════════════
+✅ Phase 3.3 完成 - 平台决策
+═════════════════════════════════════════════════════════════
+
+📄 决策文档: .claudedocs/platform-decision.md
+🎯 目标平台: {platforms}
 📋 下一步: Phase 3.5 - 工作区准备（git-worktrees）
 ```
+
+**如果用户选择 📝 修改决策**:
+1. 使用AskUserQuestion收集具体的修改意见
+2. 重新分析并生成新的平台决策
+3. 重复Step 6.4（确认检查点）
+
+**如果用户选择 🛑 终止workflow**:
+1. 显示终止消息
+2. 更新task_plan.md为终止状态
+3. 结束workflow
+
+---
 
 **If user selects 📝 修改架构**:
 1. Use AskUserQuestion to collect specific modification requests
@@ -631,21 +805,23 @@ Proceed to Step 8 (Phase 4).
 📋 下一步: Phase 4 - 开发实现（子任务驱动）
 ```
 
-## Step 8: Execute Phase 4 - 开发实现（子任务驱动）
+## Step 8: Execute Phase 4 - 开发实现（并行：Web + Mobile）
 
-🆕 **ENHANCED in v6.0**: Integrate Superpowers subagent-driven-development with two-stage code review.
+🆕 **ENHANCED in v6.4.0**: 支持并行Web和Mobile开发，根据平台决策动态激活agents。
 
-### ⚠️ MANDATORY: Read Previous Phase Outputs
+### ⚠️ MANDATORY: Read Previous Phase Outputs & Platform Decision
 
-Before executing this phase, you MUST read all previous outputs:
+Before executing this phase, you MUST read all previous outputs AND the platform decision:
+
 ```
 Read file: .claudedocs/phase0-design.md
 Read file: .claudedocs/ceo-product-manager_result.md
 Read file: .claudedocs/ceo-ui-ux-designer_result.md
 Read file: .claudedocs/ceo-system-architect_result.md
+Read file: .claudedocs/platform-decision.md  🆕 平台决策
 ```
 
-This ensures you have complete context from all previous phases.
+This ensures you have complete context from all previous phases AND know which platforms to develop.
 
 ### Execution Steps
 
@@ -655,41 +831,234 @@ Replace: "## 当前阶段\n阶段3.5: 工作区准备"
 With: "## 当前阶段\n阶段4: 开发实现"
 ```
 
-**Step 8.2: Extract development tasks from architecture**
+**Step 8.2: 🆕 Parse Platform Decision**
+
+从平台决策文档中提取开发策略：
+
+```bash
+Read file: .claudedocs/platform-decision.md
+
+Extract:
+  - platforms: (web | mobile | both)
+  - priority: (web-first | mobile-first | parallel)
+```
+
+**Step 8.3: 🆕 根据平台决策配置开发任务**
+
+### 方案A: Backend Only（纯后端）
+
+如果决策是**纯后端项目**（无前端需求）：
+
+```
+📋 开发策略：Backend Only
+
+任务分配:
+  - fullstack-developer: 后端API
+
+执行步骤:
+  1. 调用subagent-driven-development skill
+  2. 激活ceo-fullstack-developer agent（仅后端）
+  3. 任务分解：
+     - 后端API实现
+     - 数据库设计
+     - 业务逻辑实现
+  4. 执行两阶段代码审查
+```
+
+### 方案B: Web Frontend + Backend（传统Web）
+
+如果决策是**传统Web应用**（React/Next.js等）：
+
+```
+📋 开发策略：Web Full Stack
+
+任务分配:
+  - fullstack-developer: 后端API + Web前端
+
+执行步骤:
+  1. 调用subagent-driven-development skill
+  2. 激活ceo-fullstack-developer agent
+  3. 任务分解：
+     - 后端API实现
+     - Web前端实现（React/Next.js）
+  4. 执行两阶段代码审查
+
+技术栈:
+  - 后端: Node.js/Python/Go
+  - 前端: React/Next.js/Vue（传统Web技术）
+```
+
+### 方案C: Cross-Platform Mobile（跨平台移动应用）
+
+如果决策是**跨平台移动应用**（需要iOS + Android + Web）：
+
+```
+📋 开发策略：Cross-Platform Mobile
+
+任务分配:
+  - fullstack-developer: 后端API
+  - mobile-developer: React Native应用（iOS + Android + Web）
+
+执行步骤:
+  1. 调用subagent-driven-development skill
+  2. 并行激活agents:
+     - ceo-fullstack-developer (后端API)
+     - ceo-mobile-developer (React Native应用)
+  3. 移动端开发依赖后端API完成
+  4. 执行两阶段代码审查
+
+技术栈:
+  - 后端: Node.js/Python/Go
+  - 移动端: React Native + Expo
+  - 平台: iOS、Android、Web（React Native for Web）
+
+说明:
+  - React Native的"Web"是通过React Native for Web编译的
+  - 这与传统Web前端（React/Next.js）不同
+  - 一套代码覆盖三个平台
+```
+
+### 方案D: Web + Mobile Both（Web + 移动端）
+
+如果决策是**同时需要传统Web和移动应用**：
+
+```
+📋 开发策略：Web + Mobile Both
+
+任务分配:
+  - fullstack-developer: 后端API + 传统Web前端
+  - mobile-developer: React Native移动应用
+
+根据优先级策略执行:
+
+#### 策略1: web-first
+
+执行顺序:
+  1. 后端API (fullstack-developer)
+  2. 传统Web前端 (fullstack-developer)
+  3. 移动端 (mobile-developer)
+
+#### 策略2: mobile-first
+
+执行顺序:
+  1. 后端API (fullstack-developer)
+  2. 移动端 (mobile-developer)
+  3. 传统Web前端 (fullstack-developer)
+
+#### 策略3: parallel
+
+执行顺序:
+  1. 后端API (fullstack-developer) - 必须首先完成
+  2. 并行开发:
+     - 传统Web前端 (fullstack-developer)
+     - 移动端 (mobile-developer)
+
+技术栈:
+  - 后端: Node.js/Python/Go
+  - Web前端: React/Next.js（传统Web）
+  - 移动端: React Native + Expo
+```
+
+**Step 8.4: Extract development tasks from architecture**
 
 Read the architecture document and identify all development tasks. Group them into 2-5 minute subtasks.
 
 ⚠️ **Note**: All operations should use absolute paths based on {WORKTREE_PATH}.
 
-**Step 8.3: Invoke subagent-driven-development skill**
+**Step 8.5: 🆕 根据平台策略执行开发**
 
-Use the Task tool to break down development into subtasks and execute with two-stage review:
+### 后端API开发（始终执行）
 
-```
-Task tool: Invoke the subagent-driven-development skill (from superpowers)
+```bash
+# 后端API由fullstack-developer统一实现
+Task tool: Launch ceo-fullstack-developer agent
 
-Execute the skill and after completion, proceed to Step 9 (Phase 5).
+任务:
+  1. 实现后端API（按照architect设计的API规范）
+  2. 实现数据模型
+  3. 实现业务逻辑
+  4. API文档生成
 
-The skill will:
-1. Break architecture into 2-5 minute subtasks
-2. For each subtask:
-   - Launch ceo-fullstack-developer agent as implementer
-   - Review for spec compliance
-   - Review for code quality
-   - Fix issues until approved
-3. Final code review
-4. Commit changes
+输出: .claudedocs/backend-api-result.md
 ```
 
-⚠️ **TDD Enforcement**: All development MUST follow TDD:
-- RED: Write failing test first
-- GREEN: Write minimal code to pass
-- REFACTOR: Clean up
+### Web前端开发（按需执行）
 
-**Step 8.4: Update task plan progress**
+如果 `platforms.includes('web')`：
+
+```bash
+Task tool: Launch ceo-fullstack-developer agent
+
+任务:
+  1. 实现Web前端组件
+  2. 实现Web状态管理
+  3. 集成后端API
+  4. 响应式实现
+
+依赖: 后端API完成
+
+输出: .claudedocs/web-frontend-result.md
 ```
-Edit: Replace "- [ ] 阶段4: 开发实现（全栈开发-子任务驱动）"
-With:  "- [x] 阶段4: 开发实现（全栈开发-子任务驱动）"
+
+### 移动端开发（按需执行）
+
+如果 `platforms.includes('mobile')`：
+
+```bash
+Task tool: Launch ceo-mobile-developer agent
+
+任务:
+  1. 初始化移动项目（使用obytes模板）
+  2. 实现移动端UI
+  3. 实现移动端状态管理
+  4. 集成后端API
+  5. 原生功能集成（如需要）
+
+依赖: 后端API完成
+
+输出: .claudedocs/mobile-app-result.md
+```
+
+**Step 8.6: 🆕 并行开发协调**
+
+根据 `priority` 策略协调开发：
+
+```typescript
+// web-first 策略
+if (priority === 'web-first') {
+  await executeBackendAPI();     // fullstack
+  await executeWebFrontend();     // fullstack
+  await executeMobileApp();       // mobile
+}
+
+// mobile-first 策略
+else if (priority === 'mobile-first') {
+  await executeBackendAPI();      // fullstack
+  await executeMobileApp();        // mobile
+  await executeWebFrontend();      // fullstack
+}
+
+// parallel 策略
+else if (priority === 'parallel') {
+  await executeBackendAPI();       // fullstack (必须先完成)
+
+  // Web和Mobile并行开发
+  await Promise.all([
+    executeWebFrontend(),          // fullstack
+    executeMobileApp()             // mobile
+  ]);
+}
+```
+
+⚠️ **TDD Enforcement**: 所有开发必须遵循TDD：
+- RED: 先写失败的测试
+- GREEN: 写最少的代码通过测试
+- REFACTOR: 重构清理
+
+**Step 8.7: Update task plan progress**
+```
+Edit: Replace "- [ ] 阶段4: 开发实现（并行：Web+Mobile）"
+With:  "- [x] 阶段4: 开发实现（并行：Web+Mobile）"
 Edit: Update "## 当前阶段" to "阶段5: 测试验证"
 ```
 
@@ -700,8 +1069,11 @@ Proceed to Step 9 (Phase 5).
 ✅ Phase 4 完成 - 开发实现
 ═════════════════════════════════════════════════════════════
 
-💻 代码位置: {WORKTREE_PATH}/src/
-📄 开发文档: .claudedocs/ceo-fullstack-developer_result.md (if exists)
+🎯 开发平台: {platforms}
+📊 开发策略: {priority}
+💻 后端代码: {WORKTREE_PATH}/backend/
+🌐 Web代码: {WORKTREE_PATH}/web/ (如适用)
+📱 Mobile代码: {WORKTREE_PATH}/mobile/ (如适用)
 📋 下一步: Phase 5 - 测试验证（测试工程师-并行修复）
 ```
 ---

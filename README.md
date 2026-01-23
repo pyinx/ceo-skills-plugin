@@ -1,16 +1,17 @@
 # CEO Skills - Full-Stack Development Team
 
-从模糊需求到产品交付的全栈开发团队，集成7个专业agents和11个Superpowers框架skills。
+从模糊需求到产品交付的全栈开发团队，集成8个专业agents和11个Superpowers框架skills。
 
 ## ✨ 特性
 
 - 🎯 **端到端自动化**：从需求探索到产品交付的完整workflow
-- 👥 **专业分工**：7个专业agents（产品、设计、架构、开发、测试、集成测试、营销）
+- 👥 **专业分工**：8个专业agents（产品、设计、架构、全栈开发、移动端开发、测试、集成测试、营销）
 - 🧪 **TDD强制**：测试驱动开发，确保代码质量
 - 🔍 **两阶段审查**：规格合规性 + 代码质量双重保障
 - ⚡ **并行测试**：独立失败并行修复，提升效率
 - 🌳 **工作区隔离**：Git worktrees避免环境污染
 - 🌐 **集成测试**：完整的E2E测试（使用Chrome DevTools MCP）
+- 📱 **移动端支持**：支持Web + Mobile并行开发，动态平台决策
 - 📦 **一键安装**：完整插件包，所有依赖自包含
 
 ## 🚀 快速开始
@@ -58,23 +59,25 @@ cd ~/.claude/plugins/ceo-skills-plugin
        → 阶段1: 需求澄清（产品经理）
        → 阶段2: 产品设计（UI/UX设计师）
        → 阶段3: 架构设计（系统架构师）
+       → 阶段3.3: 平台决策（Web/Mobile/Both）🆕
        → 阶段3.5: 工作区准备（git-worktrees）
-       → 阶段4: 开发实现（子任务驱动+两阶段审查）
+       → 阶段4: 开发实现（并行：Web+Mobile）🆕
        → 阶段5: 测试验证（并行修复）
        → 阶段6: 交付部署（市场营销师）
 ```
 
 ## 📦 组件清单
 
-### 7个专业Agents
+### 8个专业Agents
 
 1. ceo-product-manager - 产品需求文档
 2. ceo-ui-ux-designer - 用户故事和交互设计
 3. ceo-system-architect - 技术架构设计
-4. ceo-fullstack-developer - 全栈开发实现
-5. ceo-test-engineer - 测试和质量保证
-6. **ceo-integration-tester** - **集成测试和E2E测试（新增）**
-7. ceo-marketing-specialist - 部署文档和推广
+4. ceo-fullstack-developer - 全栈开发实现（Web）
+5. **ceo-mobile-developer** - **移动端开发实现（React Native + Expo）**
+6. ceo-test-engineer - 测试和质量保证
+7. **ceo-integration-tester** - **集成测试和E2E测试**
+8. ceo-marketing-specialist - 部署文档和推广
 
 ### 11个集成Skills
 
@@ -114,10 +117,48 @@ MIT License - 详见 [LICENSE](LICENSE)
 
 ---
 
-**版本**: 6.3.0
+**版本**: 6.4.0
 **集成**: Superpowers Framework + Chrome DevTools MCP
-**组件**: 7 agents + 11 skills
+**组件**: 8 agents + 11 skills
 **仓库**: https://github.com/pyinx/ceo-skills-plugin
+
+## 🆕 v6.4.0 更新
+
+### 新增移动端开发功能
+
+- 📱 **新增 Agent**: `ceo-mobile-developer` - 移动端开发工程师
+- 🚀 **技术栈**: Expo + TypeScript + TailwindCSS + expo-router
+- 📦 **脚手架**: 基于 obytes/react-native-template-obytes
+- 🎨 **UI实现**: TailwindCSS + Nativewind + Moti 动画
+- 💾 **状态管理**: Zustand + React Query
+- 🧪 **测试覆盖**: Jest + React Testing Library + Maestro E2E
+- ⚡ **性能优化**: Flash List、图片优化、内存管理
+
+### 技术选型说明
+
+经过对三个主流React Native脚手架的全面分析：
+- ✅ **obytes/react-native-template-obytes**（强烈推荐）
+  - 最新技术栈（Expo SDK + TypeScript + TailwindCSS）
+  - 与现有CEO agents高度集成
+  - 专业团队维护，生产就绪
+  - 完整的测试覆盖和CI/CD
+  - AI友好，适合AI辅助开发
+- ⚠️ **flatlogic/react-native-starter**（中等推荐）
+  - 商业支持，但使用JavaScript和传统Redux
+- ❌ **mcnamee/react-native-starter-kit**（不推荐）
+  - 技术栈过时，维护频率低
+
+### 使用场景
+
+当产品需求中明确需要移动端应用时：
+
+```bash
+# 1. 启动workflow（自动检测移动端需求）
+/ceo:workflow "我想要一个带移动应用的电商系统"
+
+# 2. workflow会自动调用移动端开发agent
+# 3. 交付完整的iOS/Android应用
+```
 
 ## 🆕 v6.3.0 更新
 
