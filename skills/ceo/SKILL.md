@@ -867,7 +867,68 @@ Replace: "## 当前阶段\n阶段3: 架构设计"
 With: "## 当前阶段\n阶段3.3: 平台决策"
 ```
 
-### Step 6.4: 平台决策确认检查点
+### Step 6.4: CONDITIONAL - 平台决策确认检查点 🆕 v6.5.0
+
+⚠️ **CONDITIONAL CHECKPOINT** - 根据workflow模式决定是否需要确认
+
+**Check workflow mode first**:
+
+```bash
+Read file: .claudedocs/task_plan.md
+
+Extract:
+  - 执行模式: (自动模式 | 交互模式)
+```
+
+**If 执行模式 == "自动模式"**:
+
+```
+✅ 自动模式：跳过确认检查点
+
+直接执行批准操作：
+1. Use Edit tool to update task_plan.md:
+   Replace: "## 当前阶段\n阶段3.3: 平台决策"
+   With: "## 当前阶段\n阶段3.5: 工作区准备"
+   Replace: "- [ ] 阶段3.3: 平台决策（Web/Mobile/Both）"
+   With: "- [x] 阶段3.3: 平台决策（Web/Mobile/Both）"
+
+2. Extract platform decision and add to global goals:
+```
+Read file: .claudedocs/platform-decision.md
+
+Extract:
+  - platforms: (web | mobile | both)
+  - priority: (web-first | mobile-first | parallel)
+```
+
+Add to task_plan.md "## 全局目标":
+```
+  - 开发平台: {platforms}
+  - 优先级策略: {priority}
+```
+
+3. Display message:
+```
+═════════════════════════════════════════════════════════════
+✅ 自动模式：平台决策已自动批准
+═════════════════════════════════════════════════════════════
+
+🤖 执行模式: 自动模式
+📄 决策文档: .claudedocs/platform-decision.md
+📱 开发平台: {platforms}
+⚡ 优先级: {priority}
+✅ 状态: 已自动批准，继续工作区准备
+
+📋 下一步: Phase 3.5 - 工作区准备（Git Worktrees）
+```
+
+4. Proceed to Step 7 (Phase 3.5).
+```
+
+**If 执行模式 == "交互模式"**:
+
+```
+👤 交互模式：执行用户确认流程
 
 🚨 **CRITICAL CHECKPOINT - MANDATORY USER CONFIRMATION REQUIRED**
 
@@ -894,6 +955,7 @@ Options:
 ```
 
 **Step 3**: ⚠️ **等待用户响应 - 不要继续执行**
+```
 
 ### Step 6.5: 处理用户决策
 
