@@ -50,6 +50,10 @@ Create `.claudedocs/task_plan.md` with the following content:
 ```markdown
 # 任务计划
 
+## Workflow配置 🆕 v6.5.0
+- 执行模式: 待定（Step 1.5选择）
+- 自动流转: 待定
+
 ## 用户需求
 {USER_INPUT}
 
@@ -57,6 +61,97 @@ Create `.claudedocs/task_plan.md` with the following content:
 🔧 v6.5.0: 在阶段3.5创建Git Worktree后填充
 - 工作区类型: Git Worktree
 - 项目路径: 待定（阶段3.5创建）
+- Git 分支: 待定（阶段3.5创建）
+
+## 当前阶段
+初始化
+
+## 阶段进度
+- [ ] 阶段0: 需求探索（brainstorming）
+- [ ] 阶段1: 需求澄清（产品经理）
+- [ ] 阶段2: 产品设计（UI/UX设计师）
+- [ ] 阶段3: 架构设计（系统架构师）
+- [ ] 阶段3.3: 平台决策（Web/Mobile/Both）🆕
+- [ ] 阶段3.5: 工作区准备（git-worktrees）🔧 v6.5: 解决权限问题
+- [ ] 阶段4: 开发实现（并行：Web+Mobile）🆕
+- [ ] 阶段5: 测试验证（测试工程师-并行修复）
+- [ ] 阶段6: 交付部署（市场营销师）
+
+## 全局目标
+1. 理解并澄清用户需求
+2. 设计符合用户期望的产品
+3. 实现高质量、可维护的代码
+4. 确保充分测试和验证
+5. 交付完整的文档和部署方案
+```
+
+---
+
+## Step 1.5: 选择Workflow执行模式 🆕 v6.5.0
+
+**Purpose**: 在开始workflow前，让用户选择执行模式。
+
+### 模式说明
+
+- **🤖 自动模式（推荐）**：完全自动化执行，跳过所有确认检查点，适合快速原型开发
+- **👤 交互模式**：在关键阶段暂停，等待用户确认，适合重要项目
+
+### Execution
+
+**Use AskUserQuestion tool**:
+
+```
+Question: "选择CEO Workflow执行模式："
+Header: "⚙️ Workflow模式配置"
+Options:
+  - label: "🤖 自动模式（推荐）"
+    description: "完全自动化执行，跳过所有确认检查点，适合快速原型开发"
+  - label: "👤 交互模式"
+    description: "在每个关键阶段暂停，等待用户确认，适合重要项目"
+```
+
+**Save user selection to task_plan.md**:
+
+If user selects **"🤖 自动模式"**:
+```bash
+Edit file: .claudedocs/task_plan.md
+Replace: "## Workflow配置\n- 执行模式: 待定（Step 1.5选择）\n- 自动流转: 待定"
+With:
+"""
+## Workflow配置
+- 执行模式: 自动模式
+- 自动流转: 启用
+- 确认检查点: 跳过
+"""
+```
+
+If user selects **"👤 交互模式"**:
+```bash
+Edit file: .claudedocs/task_plan.md
+Replace: "## Workflow配置\n- 执行模式: 待定（Step 1.5选择）\n- 自动流转: 待定"
+With:
+"""
+## Workflow配置
+- 执行模式: 交互模式
+- 自动流转: 禁用
+- 确认检查点: 启用
+"""
+```
+
+Display confirmation message:
+```
+═════════════════════════════════════════════════════════════
+✅ Workflow模式已配置
+═════════════════════════════════════════════════════════════
+
+执行模式: {用户选择的模式}
+{if 自动模式} 🤖 自动模式：将自动流转到所有阶段，无需手动确认
+{if 交互模式} 👤 交互模式：将在关键阶段等待您确认
+
+📋 下一步: Phase 0 - 需求探索
+```
+
+Proceed to Step 2 (Phase 0).
 - Git 分支: 待定（阶段3.5创建）
 
 ## 当前阶段
@@ -299,7 +394,53 @@ Read file: .claudedocs/ceo-product-manager_result.md
 
 After agent completes and output is verified, proceed to confirmation checkpoint below.
 
-### Step 4.2: MANDATORY - User Confirmation Checkpoint
+### Step 4.2: CONDITIONAL - User Confirmation Checkpoint 🆕 v6.5.0
+
+⚠️ **CONDITIONAL CHECKPOINT** - 根据workflow模式决定是否需要确认
+
+**Check workflow mode first**:
+
+```bash
+Read file: .claudedocs/task_plan.md
+
+Extract:
+  - 执行模式: (自动模式 | 交互模式)
+```
+
+**If 执行模式 == "自动模式"**:
+
+```
+✅ 自动模式：跳过确认检查点
+
+直接执行批准操作：
+1. Use Edit tool to update task_plan.md:
+   Replace: "## 当前阶段\n阶段1: 需求澄清"
+   With: "## 当前阶段\n阶段2: 产品设计"
+   Replace: "- [ ] 阶段0: 需求探索（brainstorming）"
+   With: "- [x] 阶段0: 需求探索（brainstorming）"
+   Replace: "- [ ] 阶段1: 需求澄清（产品经理）"
+   With: "- [x] 阶段1: 需求澄清（产品经理）"
+
+2. Display message:
+```
+═════════════════════════════════════════════════════════════
+✅ 自动模式：PRD已自动批准
+═════════════════════════════════════════════════════════════
+
+🤖 执行模式: 自动模式
+📄 PRD文档: .claudedocs/ceo-product-manager_result.md
+✅ 状态: 已自动批准，继续下一阶段
+
+📋 下一步: Phase 2 - 产品设计（UI/UX设计师）
+```
+
+3. Proceed to Step 5 (Phase 2).
+```
+
+**If 执行模式 == "交互模式"**:
+
+```
+👤 交互模式：执行用户确认流程
 
 ⚠️ **CRITICAL**: You MUST pause here and wait for user confirmation before proceeding.
 
@@ -326,6 +467,7 @@ Options:
 ```
 
 ⚠️ **DO NOT PROCEED** until user selects an option.
+```
 
 ### Step 4.3: Process User Decision
 
@@ -521,11 +663,55 @@ Read file: .claudedocs/ceo-system-architect_result.md
 ⚠️ DO NOT proceed to confirmation checkpoint if file doesn't exist
 ```
 
-After agent completes and output is verified, **YOU MUST STOP HERE** and execute the confirmation checkpoint below.
+After agent completes and output is verified, **CHECK WORKFLOW MODE** before proceeding.
 
-⚠️ **DO NOT PROCEED to Phase 3.5 until user confirms the architecture!**
+⚠️ **DO NOT PROCEED to Phase 3.5 until user confirms the architecture (交互模式) or auto-approves (自动模式)!**
 
-### Step 6.1: MANDATORY - Architecture Confirmation Checkpoint
+### Step 6.1: CONDITIONAL - Architecture Confirmation Checkpoint 🆕 v6.5.0
+
+🚨 **CONDITIONAL CHECKPOINT** - 根据workflow模式决定是否需要确认
+
+**Check workflow mode first**:
+
+```bash
+Read file: .claudedocs/task_plan.md
+
+Extract:
+  - 执行模式: (自动模式 | 交互模式)
+```
+
+**If 执行模式 == "自动模式"**:
+
+```
+✅ 自动模式：跳过确认检查点
+
+直接执行批准操作：
+1. Use Edit tool to update task_plan.md:
+   Replace: "## 当前阶段\n阶段3: 架构设计"
+   With: "## 当前阶段\n阶段3.3: 平台决策"
+   Replace: "- [ ] 阶段3: 架构设计（系统架构师）"
+   With: "- [x] 阶段3: 架构设计（系统架构师）"
+
+2. Display message:
+```
+═════════════════════════════════════════════════════════════
+✅ 自动模式：架构已自动批准
+═════════════════════════════════════════════════════════════
+
+🤖 执行模式: 自动模式
+📄 架构文档: .claudedocs/ceo-system-architect_result.md
+✅ 状态: 已自动批准，继续平台决策
+
+📋 下一步: Phase 3.3 - 平台决策
+```
+
+3. Proceed to Step 6.3 (Phase 3.3).
+```
+
+**If 执行模式 == "交互模式"**:
+
+```
+👤 交互模式：执行用户确认流程
 
 🚨 **CRITICAL CHECKPOINT - MANDATORY USER CONFIRMATION REQUIRED**
 
@@ -557,6 +743,7 @@ Options:
 
 ⚠️ **DO NOT PROCEED** until user selects an option.
 ⚠️ **DO NOT PROCEED to Phase 3.5** until user selects "✅ 批准架构".
+```
 
 ### Step 6.2: Process User Decision
 
