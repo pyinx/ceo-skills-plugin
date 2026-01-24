@@ -859,9 +859,17 @@ project/
 
 ## 使用的Skills
 
+- `mcp__context7`：官方库文档查询和框架模式指导（方案设计时使用）
 - `react-native-best-practices`：React Native性能优化和最佳实践（基于Callstack 9+年经验）
 - `frontend-design`：移动端UI组件生成
 - `tdd`：测试驱动开发
+
+**Context7 MCP使用场景**：
+- 🔍 **React Native/Expo**：查询官方文档和API参考
+- 📚 **组件库**：查询React Native组件使用方法
+- 🎯 **性能优化**：查询性能优化指南和最佳实践
+- ⚡ **原生模块**：查询Turbo Modules和原生模块开发
+- 🛠️ **工具配置**：查询Expo配置和开发工具设置
 
 ---
 

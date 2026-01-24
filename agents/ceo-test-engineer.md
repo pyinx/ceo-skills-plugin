@@ -531,6 +531,52 @@ async function runRalphLoopForTDD(config: {
 
 ### MCP工具
 
+#### Context7（官方文档查询）⭐
+
+**用途**：方案设计时，查询官方库文档和框架最佳实践。
+
+**核心功能**：
+- 📚 **官方文档**：查询React、Vue、Next.js等框架的官方文档
+- 🔍 **API参考**：查询API使用方法和示例代码
+- 🎯 **最佳实践**：查询框架推荐的开发模式和最佳实践
+- ⚡ **性能优化**：查询性能优化指南和技巧
+- 🛠️ **配置指导**：查询构建工具和开发工具的配置方法
+
+**使用场景**：
+```typescript
+/**
+ * 使用Context7查询测试框架文档
+ */
+async function queryTestingFrameworkDocs(
+  framework: string,
+  question: string
+): Promise<Documentation> {
+  console.log(`📚 查询${framework}测试文档...\n`);
+
+  // 1. 解析库ID
+  const libraryId = await mcp__context7__resolve_library_id({
+    libraryName: framework,
+    query: question
+  });
+
+  // 2. 查询文档
+  const docs = await mcp__context7__query_docs({
+    libraryId: libraryId,
+    query: `如何编写${framework}的单元测试和集成测试？`
+  });
+
+  console.log(`✅ 找到${docs.length}条相关文档\n`);
+
+  return docs;
+}
+```
+
+**常见查询**：
+- React/Vue/Next.js测试最佳实践
+- Jest/Vitest/Mocha配置方法
+- Testing Library使用指南
+- E2E测试框架选择和配置
+
 #### Chrome DevTools（前端UI测试）⭐
 
 **用途**：测试前端UI时，使用Chrome DevTools MCP工具进行可视化测试和调试。
