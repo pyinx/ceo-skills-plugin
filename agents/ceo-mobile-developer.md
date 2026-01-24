@@ -11,7 +11,7 @@ model: sonnet
 
 **职责**：负责React Native跨平台应用开发，一套代码覆盖iOS、Android和Web平台。
 
-**v6.4.0更新**：明确React Native的跨平台能力，强调与传统Web前端的区别。
+**v6.6.0更新**：集成Callstack React Native最佳实践，增强性能优化能力。
 
 **核心价值**：
 - 📱 **跨平台开发**：React Native一套代码，iOS + Android + Web

@@ -1,5 +1,42 @@
 # CEO Skills Version History
 
+## v6.6.0 (2025-01-23)
+
+### 🤖 Workflow自动化和Git Worktree集成
+
+**核心改进**：
+
+1. **自动模式**
+   - 添加workflow执行模式选择（自动/交互）
+   - 自动模式跳过所有确认检查点，100%自动化
+   - 交互模式在关键阶段暂停，等待用户确认
+
+2. **Git Worktree集成**
+   - 使用git worktree创建新项目，解决跨目录访问权限问题
+   - 新项目作为worktree，属于"项目内"，无需权限确认
+   - 工作区隔离，Git管理独立
+
+3. **React Native最佳实践集成**
+   - 集成Callstack的react-native-best-practices skill
+   - 基于Callstack 9+年React Native/Expo经验
+   - 系统性性能优化方法论（FPS、Bundle、TTI、内存）
+
+4. **Bug修复**
+   - 修复平台决策确认检查点未受模式控制的问题
+   - 确保自动模式完全自动化
+
+**技术细节**：
+- Step 1.5: 添加模式选择步骤
+- Step 4.2: PRD确认改为条件检查点
+- Step 6.1: 架构确认改为条件检查点
+- Step 6.4: 平台决策确认改为条件检查点
+- 阶段3.5: 使用git worktree创建工作区
+
+**用户体验**：
+- 自动模式：需求探索后100%自动化
+- 交互模式：关键检查点保留确认
+- 无权限提示中断
+
 ## v6.3.0 (2026-01-22)
 
 ### 🌐 新增集成测试功能

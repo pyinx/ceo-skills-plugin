@@ -117,10 +117,33 @@ MIT License - 详见 [LICENSE](LICENSE)
 
 ---
 
-**版本**: 6.4.0
-**集成**: Superpowers Framework + Chrome DevTools MCP
-**组件**: 8 agents + 11 skills
+**版本**: 6.6.0
+**集成**: Superpowers Framework + Chrome DevTools MCP + Callstack React Native Best Practices
+**组件**: 8 agents + 13 skills
 **仓库**: https://github.com/pyinx/ceo-skills-plugin
+
+## 🆕 v6.6.0 更新
+
+### Workflow自动化和Git Worktree集成
+
+- 🤖 **自动模式**: 完全自动化workflow，跳过所有确认检查点
+- 👤 **交互模式**: 在关键阶段暂停，等待用户确认
+- 🌳 **Git Worktree**: 使用git worktree创建新项目，解决跨目录访问权限问题
+- ⚡ **无缝体验**: 自动模式下100%自动化，零手动确认
+- 🔧 **平台决策检查点**: 修复平台决策未受模式控制的Bug
+
+### React Native最佳实践集成
+
+- 📚 **Callstack Skill**: 集成react-native-best-practices skill（基于9+年经验）
+- ⚡ **性能优化**: 系统性的性能优化方法论（FPS、Bundle、TTI、内存）
+- 🎯 **优先级分类**: Critical、High、Medium三级优化策略
+- 📊 **详细指南**: 27个性能优化参考文档
+
+### 工作区权限解决方案
+
+- 🔧 **权限问题**: 解决Claude Code CLI跨目录访问权限确认
+- 🌳 **Git Worktree**: 新项目作为worktree，无需额外确认
+- 📁 **工作区隔离**: 独立的Git工作环境，互不干扰
 
 ## 🆕 v6.4.0 更新
 

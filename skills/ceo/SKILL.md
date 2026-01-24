@@ -1,7 +1,7 @@
 ---
 name: ceo
-version: 6.5.0
-description: This skill should be used when the user asks to "build a complete app", "develop a software project from scratch", "create a website with full workflow", "manage a development team", "automate software development from requirements to deployment", or "coordinate multiple agents for software development". Integrates Superpowers frameworks: brainstorming for requirement exploration, git-worktrees for workspace isolation, subagent-driven-development for task execution, parallel-agent-dispatch for testing, TDD for code quality, and two-stage code review for specification compliance. Also includes integration testing with Chrome DevTools MCP for end-to-end validation. 🆕 v6.5.0: Enhanced mobile development with Callstack's React Native best practices for professional performance optimization.
+version: 6.6.0
+description: This skill should be used when the user asks to "build a complete app", "develop a software project from scratch", "create a website with full workflow", "manage a development team", "automate software development from requirements to deployment", or "coordinate multiple agents for software development". Integrates Superpowers frameworks: brainstorming for requirement exploration, git-worktrees for workspace isolation, subagent-driven-development for task execution, parallel-agent-dispatch for testing, TDD for code quality, and two-stage code review for specification compliance. Also includes integration testing with Chrome DevTools MCP for end-to-end validation. 🆕 v6.6.0: Complete workflow automation with auto/interactive modes, Git worktree for seamless project creation, and Callstack React Native best practices integration.
 context: fork
 user-invocable: true
 allowed-tools:
@@ -19,7 +19,7 @@ allowed-tools:
   - "mcp__.*"
 ---
 
-# CEO Agent - Direct Orchestration (v6.5.0)
+# CEO Agent - Direct Orchestration (v6.6.0)
 
 When user requests software development, execute the following workflow:
 

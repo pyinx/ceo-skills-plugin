@@ -9,8 +9,8 @@
   "plugins": [
     {
       "name": "ceo",
-      "description": "Full-stack development team: 8 specialized agents with Superpowers framework integration for automated workflow from requirements to deployment. 🆕 v6.5.0: Enhanced mobile development with Callstack's React Native best practices for professional performance optimization.",
-      "version": "6.5.0",
+      "description": "Full-stack development team: 8 specialized agents with Superpowers framework integration for automated workflow from requirements to deployment. 🆕 v6.6.0: Complete workflow automation with auto/interactive modes, Git worktree for seamless project creation, and Callstack React Native best practices integration.",
+      "version": "6.6.0",
       "source": "./",
       "strict": false,
       "author": {
